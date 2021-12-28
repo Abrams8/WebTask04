@@ -10,10 +10,10 @@ public class Car implements Serializable {
     private String brand;
     private String model;
     private String transmissionType;
-    private Date yearOfIssue;
+    private Integer yearOfIssue;
     private Double price;
     private String fuelType;
-    private BodyType bodyType;
+    private String bodyType;
 
     public Car() {
     }
@@ -50,11 +50,11 @@ public class Car implements Serializable {
         this.transmissionType = transmissionType;
     }
 
-    public Date getYearOfIssue() {
+    public Integer getYearOfIssue() {
         return yearOfIssue;
     }
 
-    public void setYearOfIssue(Date yearOfIssue) {
+    public void setYearOfIssue(Integer yearOfIssue) {
         this.yearOfIssue = yearOfIssue;
     }
 
@@ -74,11 +74,11 @@ public class Car implements Serializable {
         this.fuelType = fuelType;
     }
 
-    public BodyType getBodyType() {
+    public String getBodyType() {
         return bodyType;
     }
 
-    public void setBodyType(BodyType bodyType) {
+    public void setBodyType(String bodyType) {
         this.bodyType = bodyType;
     }
 
@@ -87,7 +87,7 @@ public class Car implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return Objects.equals(carId, car.carId) && Objects.equals(brand, car.brand) && Objects.equals(model, car.model) && Objects.equals(transmissionType, car.transmissionType) && Objects.equals(yearOfIssue, car.yearOfIssue) && Objects.equals(price, car.price) && Objects.equals(fuelType, car.fuelType) && bodyType == car.bodyType;
+        return Objects.equals(carId, car.carId) && Objects.equals(brand, car.brand) && Objects.equals(model, car.model) && Objects.equals(transmissionType, car.transmissionType) && Objects.equals(yearOfIssue, car.yearOfIssue) && Objects.equals(price, car.price) && Objects.equals(fuelType, car.fuelType) && Objects.equals(bodyType, car.bodyType);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class Car implements Serializable {
                 ", yearOfIssue=" + yearOfIssue +
                 ", price=" + price +
                 ", fuelType='" + fuelType + '\'' +
-                ", bodyType=" + bodyType +
+                ", bodyType='" + bodyType + '\'' +
                 '}';
     }
 }

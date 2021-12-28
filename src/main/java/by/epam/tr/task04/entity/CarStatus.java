@@ -7,7 +7,8 @@ import java.util.Objects;
 public class CarStatus implements Serializable {
 
     private Integer carStatusId;
-    private String carStatus;
+    private Boolean isBusy;
+    private Boolean isRepaired;
     private Integer carId;
     private Date repairStartDate;
     private Date repairEndDate;
@@ -22,12 +23,20 @@ public class CarStatus implements Serializable {
         this.carStatusId = carStatusId;
     }
 
-    public String getCarStatus() {
-        return carStatus;
+    public Boolean getBusy() {
+        return isBusy;
     }
 
-    public void setCarStatus(String carStatus) {
-        this.carStatus = carStatus;
+    public void setBusy(Boolean busy) {
+        isBusy = busy;
+    }
+
+    public Boolean getRepaired() {
+        return isRepaired;
+    }
+
+    public void setRepaired(Boolean repaired) {
+        isRepaired = repaired;
     }
 
     public Integer getCarId() {
@@ -58,20 +67,21 @@ public class CarStatus implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CarStatus carStatus1 = (CarStatus) o;
-        return Objects.equals(carStatusId, carStatus1.carStatusId) && Objects.equals(carStatus, carStatus1.carStatus) && Objects.equals(carId, carStatus1.carId) && Objects.equals(repairStartDate, carStatus1.repairStartDate) && Objects.equals(repairEndDate, carStatus1.repairEndDate);
+        CarStatus carStatus = (CarStatus) o;
+        return Objects.equals(carStatusId, carStatus.carStatusId) && Objects.equals(isBusy, carStatus.isBusy) && Objects.equals(isRepaired, carStatus.isRepaired) && Objects.equals(carId, carStatus.carId) && Objects.equals(repairStartDate, carStatus.repairStartDate) && Objects.equals(repairEndDate, carStatus.repairEndDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(carStatusId, carStatus, carId, repairStartDate, repairEndDate);
+        return Objects.hash(carStatusId, isBusy, isRepaired, carId, repairStartDate, repairEndDate);
     }
 
     @Override
     public String toString() {
         return "CarStatus{" +
                 "carStatusId=" + carStatusId +
-                ", carStatus='" + carStatus + '\'' +
+                ", isBusy=" + isBusy +
+                ", isRepaired=" + isRepaired +
                 ", carId=" + carId +
                 ", repairStartDate=" + repairStartDate +
                 ", repairEndDate=" + repairEndDate +

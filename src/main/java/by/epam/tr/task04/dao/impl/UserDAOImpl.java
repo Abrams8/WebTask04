@@ -19,8 +19,8 @@ public class UserDAOImpl implements UserDAO {
     private final static String ADD_USER_TO_BLACK_LIST = "INSERT INTO Black_list(user_id, reason) VALUES(?, ?);";
     private final static String GET_USER_BY_ID = "SELECT * FROM Users NATURAL JOIN black_list NATURAL JOIN user_roles WHERE user_id=?;";
     private final static String GET_ALL_USERS = "SELECT * FROM Users NATURAL JOIN User_roles NATURAL JOIN Black_list;";
-    private final static String UPDATE_USER_BY_ID = "UPDATE Users(user_id, login, password, pasport_number, name, surname, age, phone_number, user_role_id) values(?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE user_id=?;";
-    private final static String GET_MAX_USER_ID = "SELECT user_id FROM Users WHERE user_id=(SELECT MAX(user_id) FROM Users);";
+    private final static String UPDATE_USER_BY_ID = "UPDATE Users SET user_id=?, login=?, password=?, pasport_number=?, name=?, surname=?, age=?, phone_number=?, user_roles_id=? WHERE user_id=?;";
+    private final static String GET_MAX_USER_ID = "SELECT MAX(user_id) FROM Users;";
     private final static String GET_ALL_USERS_IN_BLACK_LIST = "SELECT * FROM Users INNER JOIN Black_list using(user_id);";
     private final static String FIND_USER_BY_LOGIN = "SELECT * FROM Users WHERE login=?;";
     private final static String FIND_USER_BY_PHONE_NUMBER = "SELECT * FROM Users WHERE phone_number=?;";
@@ -37,7 +37,6 @@ public class UserDAOImpl implements UserDAO {
         ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
-            connection.setAutoCommit(false);
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_ALL_USERS);
             while (resultSet.next()) {
@@ -53,9 +52,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
                 allUsersList.add(user);
             }
-            connection.commit();
         } catch (SQLException e) {
-            connection.rollback();
             e.printStackTrace();
         } finally {
             try {
@@ -83,7 +80,6 @@ public class UserDAOImpl implements UserDAO {
         ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
-            connection.setAutoCommit(false);
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_ALL_USERS_IN_BLACK_LIST);
             while (resultSet.next()) {
@@ -99,9 +95,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
                 allUsersInBlackList.add(user);
             }
-            connection.commit();
         } catch (SQLException e) {
-            connection.rollback();
             e.printStackTrace();
         } finally {
             try {
@@ -126,12 +120,11 @@ public class UserDAOImpl implements UserDAO {
     public void addUser(User user) throws DAOException, SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(ADD_USER);
-            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(1, getMaxUserId() + 1);
             preparedStatement.setString(2, user.getLogin());
             preparedStatement.setString(3, user.getPassword());
             preparedStatement.setString(4, user.getPasportNumber());
@@ -147,9 +140,6 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
                 if (preparedStatement != null) {
                     preparedStatement.close();
                 }
@@ -167,7 +157,6 @@ public class UserDAOImpl implements UserDAO {
     public void addUserToBlackList(int userId, String reason) throws DAOException, SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(false);
@@ -181,9 +170,6 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
                 if (preparedStatement != null) {
                     preparedStatement.close();
                 }
@@ -205,7 +191,6 @@ public class UserDAOImpl implements UserDAO {
         ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
-            connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(GET_USER_BY_ID);
             preparedStatement.setInt(1, userId);
             resultSet = preparedStatement.executeQuery();
@@ -219,13 +204,9 @@ public class UserDAOImpl implements UserDAO {
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
-
-                preparedStatement.executeUpdate();
-                connection.commit();
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            connection.rollback();
         } finally {
             try {
                 if (resultSet != null) {
@@ -252,7 +233,6 @@ public class UserDAOImpl implements UserDAO {
         ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
-            connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(FIND_USER_BY_LOGIN);
             preparedStatement.setString(1, userLogin);
             resultSet = preparedStatement.executeQuery();
@@ -266,13 +246,9 @@ public class UserDAOImpl implements UserDAO {
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
-
-                preparedStatement.executeUpdate();
-                connection.commit();
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            connection.rollback();
         } finally {
             try {
                 if (resultSet != null) {
@@ -299,7 +275,6 @@ public class UserDAOImpl implements UserDAO {
         ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
-            connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(FIND_USER_BY_PHONE_NUMBER);
             preparedStatement.setString(1, userPhoneNumber);
             resultSet = preparedStatement.executeQuery();
@@ -313,13 +288,9 @@ public class UserDAOImpl implements UserDAO {
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
-
-                preparedStatement.executeUpdate();
-                connection.commit();
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            connection.rollback();
         } finally {
             try {
                 if (resultSet != null) {
@@ -347,18 +318,14 @@ public class UserDAOImpl implements UserDAO {
         ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
-            connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(FIND_USER_IN_BLACK_LIST_BY_ID);
             preparedStatement.setInt(1, userId);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 userInBlackList = true;
-                preparedStatement.executeUpdate();
-                connection.commit();
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            connection.rollback();
         } finally {
             try {
                 if (resultSet != null) {
@@ -381,11 +348,9 @@ public class UserDAOImpl implements UserDAO {
     public void updateUser(User user) throws DAOException, SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(false);
-
             preparedStatement = connection.prepareStatement(UPDATE_USER_BY_ID);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setString(2, user.getLogin());
@@ -403,9 +368,6 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
                 if (preparedStatement != null) {
                     preparedStatement.close();
                 }
@@ -423,22 +385,18 @@ public class UserDAOImpl implements UserDAO {
     public void deleteUser(int userId) throws DAOException, SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID);
             preparedStatement.setInt(1, userId);
-            resultSet = preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             connection.rollback();
             e.printStackTrace();
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
                 if (preparedStatement != null) {
                     preparedStatement.close();
                 }
@@ -456,22 +414,18 @@ public class UserDAOImpl implements UserDAO {
     public void deleteUserFromBlackList(int userId) throws DAOException, SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(DELETE_USER_FROM_BLACK_LIST_BY_ID);
             preparedStatement.setInt(1, userId);
-            resultSet = preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             connection.rollback();
             e.printStackTrace();
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
                 if (preparedStatement != null) {
                     preparedStatement.close();
                 }
