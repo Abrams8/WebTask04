@@ -2,20 +2,20 @@ package by.epam.tr.task04.dao;
 
 import by.epam.tr.task04.entity.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface OrderDAO {
 
-    int addOrder(Order order) throws DAOException;
-    int deleteOrder(Order order) throws DAOException;
-    int updateOrderStatusByOrderId(Integer id,  OrderStatus orderStatus) throws DAOException;
+    void addOrder(Order order) throws SQLException, DAOException;
+    void deleteOrder(Order order) throws SQLException, DAOException;
+    void updateOrderStatusByOrderId(Order order, OrderStatus orderStatus) throws DAOException, SQLException;
 
-    int addRejectedOrder (OrderStatus orderStatus);
-    int addComfirmedOrder (OrderStatus orderStatus);
+    void addRejectedOrder (Order order, String rejectionReason) throws DAOException, SQLException;
+    void addComfirmedOrder (Order order) throws DAOException, SQLException;
 
-    List<Order> allComfirmedOrders () throws DAOException;
-    List<Order> allRejectedOrders () throws DAOException;
-    List<Order> allOrders () throws DAOException;
-
+    List<Order> getAllComfirmedOrders () throws DAOException;
+    List<Order> getAllRejectedOrders () throws DAOException;
+    List<Order> getAllOrders () throws DAOException;
 
 }

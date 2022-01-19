@@ -7,6 +7,7 @@ public class OrderStatus implements Serializable {
     private Integer id;
     private Integer billId;
     private Integer carStatusId;
+    private Boolean isConfirmed;
     private String rejectionReason;
 
     public OrderStatus(){}
@@ -35,6 +36,14 @@ public class OrderStatus implements Serializable {
         this.carStatusId = carStatusId;
     }
 
+    public Boolean getConfirmed() {
+        return isConfirmed;
+    }
+
+    public void setConfirmed(Boolean confirmed) {
+        isConfirmed = confirmed;
+    }
+
     public String getRejectionReason() {
         return rejectionReason;
     }
@@ -48,12 +57,12 @@ public class OrderStatus implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderStatus that = (OrderStatus) o;
-        return Objects.equals(id, that.id) && Objects.equals(billId, that.billId) && Objects.equals(carStatusId, that.carStatusId) && Objects.equals(rejectionReason, that.rejectionReason);
+        return Objects.equals(id, that.id) && Objects.equals(billId, that.billId) && Objects.equals(carStatusId, that.carStatusId) && Objects.equals(isConfirmed, that.isConfirmed) && Objects.equals(rejectionReason, that.rejectionReason);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, billId, carStatusId, rejectionReason);
+        return Objects.hash(id, billId, carStatusId, isConfirmed, rejectionReason);
     }
 
     @Override
@@ -62,6 +71,7 @@ public class OrderStatus implements Serializable {
                 "id=" + id +
                 ", billId=" + billId +
                 ", carStatusId=" + carStatusId +
+                ", isConfirmed=" + isConfirmed +
                 ", rejectionReason='" + rejectionReason + '\'' +
                 '}';
     }

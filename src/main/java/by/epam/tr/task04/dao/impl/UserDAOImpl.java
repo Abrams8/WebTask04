@@ -1,6 +1,7 @@
 package by.epam.tr.task04.dao.impl;
 
 import by.epam.tr.task04.dao.ConnectionPool.ConnectionPool;
+import by.epam.tr.task04.dao.ConnectionPool.ConnectionPoolException;
 import by.epam.tr.task04.dao.DAOException;
 import by.epam.tr.task04.dao.UserDAO;
 import by.epam.tr.task04.entity.BlackList;
@@ -15,11 +16,11 @@ public class UserDAOImpl implements UserDAO {
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    private final static String ADD_USER = "INSERT INTO Users(user_id, login, password, pasport_number, name, surname, age, phone_number, user_role_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private final static String ADD_USER = "INSERT INTO Users(user_id, login, password, pasport_number, name, surname, age, phone_number, user_role_id, mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final static String ADD_USER_TO_BLACK_LIST = "INSERT INTO Black_list(user_id, reason) VALUES(?, ?);";
     private final static String GET_USER_BY_ID = "SELECT * FROM Users NATURAL JOIN black_list NATURAL JOIN user_roles WHERE user_id=?;";
     private final static String GET_ALL_USERS = "SELECT * FROM Users NATURAL JOIN User_roles NATURAL JOIN Black_list;";
-    private final static String UPDATE_USER_BY_ID = "UPDATE Users SET user_id=?, login=?, password=?, pasport_number=?, name=?, surname=?, age=?, phone_number=?, user_roles_id=? WHERE user_id=?;";
+    private final static String UPDATE_USER_BY_ID = "UPDATE Users SET user_id=?, login=?, password=?, pasport_number=?, name=?, surname=?, age=?, phone_number=?, user_roles_id=? mail=? WHERE user_id=?;";
     private final static String GET_MAX_USER_ID = "SELECT MAX(user_id) FROM Users;";
     private final static String GET_ALL_USERS_IN_BLACK_LIST = "SELECT * FROM Users INNER JOIN Black_list using(user_id);";
     private final static String FIND_USER_BY_LOGIN = "SELECT * FROM Users WHERE login=?;";
@@ -28,9 +29,10 @@ public class UserDAOImpl implements UserDAO {
     private final static String DELETE_USER_BY_ID = "DELETE FROM Users WHERE user_id=?;";
     private final static String DELETE_USER_FROM_BLACK_LIST_BY_ID = "DELETE FROM Black_list WHERE user_id=?;";
     private final static String GET_USER_ID_BY_LOGIN = "SELECT user_id FROM Users WHERE login=?;";
+    private final static String GET_USER_ROLE_BY_USER_ID = "SELECT user_role_id FROM Users WHERE user_id=?;";
 
     @Override
-    public List<User> getAllUsers() throws DAOException, SQLException {
+    public List<User> getAllUsers() throws DAOException {
         List<User> allUsersList = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
@@ -50,10 +52,11 @@ public class UserDAOImpl implements UserDAO {
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
+                user.setMail(resultSet.getString("mail"));
                 allUsersList.add(user);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (resultSet != null) {
@@ -66,14 +69,14 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
         return allUsersList;
     }
 
     @Override
-    public List<User> getAllUsersInBlackList() throws DAOException, SQLException {
+    public List<User> getAllUsersInBlackList() throws DAOException {
         List<User> allUsersInBlackList = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
@@ -93,10 +96,11 @@ public class UserDAOImpl implements UserDAO {
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
+                user.setMail(resultSet.getString("mail"));
                 allUsersInBlackList.add(user);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (resultSet != null) {
@@ -109,7 +113,7 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
         return allUsersInBlackList;
@@ -133,11 +137,12 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setInt(7, user.getAge());
             preparedStatement.setString(8, user.getPhoneNumber());
             preparedStatement.setInt(9, user.getRole().getRoleId());
+            preparedStatement.setString(10, user.getMail());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             connection.rollback();
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -147,7 +152,7 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
 
@@ -167,7 +172,7 @@ public class UserDAOImpl implements UserDAO {
             connection.commit();
         } catch (SQLException e) {
             connection.rollback();
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -177,14 +182,14 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
 
     }
 
     @Override
-    public User findUserById(int userId) throws DAOException, SQLException {
+    public User findUserById(int userId) throws DAOException {
         User user = new User();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -204,9 +209,10 @@ public class UserDAOImpl implements UserDAO {
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
+                user.setMail(resultSet.getString("mail"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (resultSet != null) {
@@ -219,14 +225,14 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
         return user;
     }
 
     @Override
-    public User findUserByLogin(String userLogin) throws DAOException, SQLException {
+    public User findUserByLogin(String userLogin) throws DAOException {
         User user = new User();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -246,9 +252,10 @@ public class UserDAOImpl implements UserDAO {
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
+                user.setMail(resultSet.getString("mail"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (resultSet != null) {
@@ -261,14 +268,14 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
         return user;
     }
 
     @Override
-    public User findUserByPhoneNumber(String userPhoneNumber) throws DAOException, SQLException {
+    public User findUserByPhoneNumber(String userPhoneNumber) throws DAOException {
         User user = new User();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -288,9 +295,10 @@ public class UserDAOImpl implements UserDAO {
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
+                user.setMail(resultSet.getString("mail"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (resultSet != null) {
@@ -303,7 +311,7 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
         return user;
@@ -311,7 +319,7 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public boolean findInBlacklistById(int userId) throws DAOException, SQLException {
+    public boolean findInBlacklistById(int userId) throws DAOException {
         boolean userInBlackList = false;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -325,7 +333,7 @@ public class UserDAOImpl implements UserDAO {
                 userInBlackList = true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (resultSet != null) {
@@ -338,7 +346,7 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
         return userInBlackList;
@@ -361,11 +369,12 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setInt(7, user.getAge());
             preparedStatement.setString(8, user.getPhoneNumber());
             preparedStatement.setInt(9, user.getRole().getRoleId());
+            preparedStatement.setString(10, user.getMail());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             connection.rollback();
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -375,14 +384,14 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
 
     }
 
     @Override
-    public void deleteUser(int userId) throws DAOException, SQLException {
+    public void deleteUserById(int userId) throws DAOException, SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -394,7 +403,7 @@ public class UserDAOImpl implements UserDAO {
             connection.commit();
         } catch (SQLException e) {
             connection.rollback();
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -404,7 +413,7 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
 
@@ -423,7 +432,7 @@ public class UserDAOImpl implements UserDAO {
             connection.commit();
         } catch (SQLException e) {
             connection.rollback();
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -433,7 +442,7 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
 
@@ -457,7 +466,7 @@ public class UserDAOImpl implements UserDAO {
             }
         } catch (SQLException e) {
             connection.rollback();
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (resultSet != null) {
@@ -470,7 +479,7 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
         return userId;
@@ -490,7 +499,7 @@ public class UserDAOImpl implements UserDAO {
                 maxId = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (resultSet != null) {
@@ -503,9 +512,43 @@ public class UserDAOImpl implements UserDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
         return maxId;
+    }
+
+    @Override
+    public int getUserRoleByUserId(int userId) throws DAOException {
+        int userRole = 0;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(GET_USER_ROLE_BY_USER_ID);
+            preparedStatement.setInt(1, userId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                userRole = resultSet.getInt("user_role_id");
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+        }
+        return userRole;
     }
 }

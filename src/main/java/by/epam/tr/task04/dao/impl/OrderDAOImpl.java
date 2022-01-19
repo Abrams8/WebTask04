@@ -1,52 +1,207 @@
 package by.epam.tr.task04.dao.impl;
 
+import by.epam.tr.task04.dao.ConnectionPool.ConnectionPool;
 import by.epam.tr.task04.dao.DAOException;
 import by.epam.tr.task04.dao.OrderDAO;
 import by.epam.tr.task04.entity.Order;
 import by.epam.tr.task04.entity.OrderStatus;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
 
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
+
+    private final static String ADD_ORDER = "INSERT INTO Orders(order_id, start_date, end_date, status, user_id, car_id) VALUES (?, ?, ?, ?, ?, ?);";
+    private final static String DELETE_ORDER = "DELETE FROM Orders WHERE order_id=?;";
+    private final static String UPDATE_ORDER = "UPDATE Order_status SET is_confirmed=?, rejection_reason=? WHERE id=?;";
+
+    private final static String ADD_REJECTED_ORDER = "UPDATE Order_status SET is_confirmed='false', rejection_reason=? WHERE id=?;";
+    private final static String ADD_COMFIRMED_ORDER = "UPDATE Order_status SET is_confirmed='true' WHERE id=?;";
+
+    private final static String GET_ALL_ORDERS = "SELECT * FROM Orders";
+    private final static String GET_ALL_REJECTED_ORDERS = "";
+    private final static String GET_ALL_COMFIRMED_ORDERS = "";
+
+
 
     @Override
-    public int addOrder(Order order) throws DAOException {
-        return 0;
+    public void addOrder(Order order) throws DAOException, SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatementAddCar = null;
+        PreparedStatement preparedStatementAddCarStatus = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+            preparedStatementAddCar = connection.prepareStatement(ADD_ORDER);
+            preparedStatementAddCar.setInt(1, order.getOrderId());
+            preparedStatementAddCar.setDate(2, order.getStartDate());
+            preparedStatementAddCar.setDate(3, order.getEndDate());
+            preparedStatementAddCar.setString(4, order.getStatus());
+            preparedStatementAddCar.setInt(5, order.getUserId());
+            preparedStatementAddCar.setDouble(6, order.getCarId());
+            preparedStatementAddCar.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw new DAOException(e);
+        } finally {
+            try {
+                if (preparedStatementAddCar != null) {
+                    preparedStatementAddCar.close();
+                }
+                if (preparedStatementAddCarStatus != null) {
+                    preparedStatementAddCarStatus.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+        }
+
+    }
+
+
+    @Override
+    public void deleteOrder(Order order) throws DAOException, SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatementDeleteCar = null;
+        PreparedStatement preparedStatementDeleteCarStatus = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+            preparedStatementDeleteCar = connection.prepareStatement(DELETE_ORDER);
+            preparedStatementDeleteCar.setInt(1, order.getOrderId());
+            preparedStatementDeleteCar.executeUpdate();
+
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw new DAOException(e);
+        } finally {
+            try {
+                if (preparedStatementDeleteCar != null) {
+                    preparedStatementDeleteCar.close();
+                }
+                if (preparedStatementDeleteCarStatus != null) {
+                    preparedStatementDeleteCarStatus.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+        }
+
     }
 
     @Override
-    public int deleteOrder(Order order) throws DAOException {
-        return 0;
+    public void updateOrderStatusByOrderId(Order order, OrderStatus orderStatus) throws DAOException, SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(UPDATE_ORDER);
+            preparedStatement.setBoolean(1, orderStatus.getConfirmed());
+            preparedStatement.setString(2, orderStatus.getRejectionReason());
+            preparedStatement.setInt(3, order.getCarId());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw new DAOException(e);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+        }
+
     }
 
     @Override
-    public int updateOrderStatusByOrderId(Integer id, OrderStatus orderStatus) throws DAOException {
-        return 0;
+    public void addRejectedOrder(Order order, String rejectionReason) throws DAOException, SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(ADD_REJECTED_ORDER);
+            preparedStatement.setString(1, rejectionReason);
+            preparedStatement.setInt(2, order.getOrderId());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw new DAOException(e);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+        }
+
+    }
+    @Override
+    public void addComfirmedOrder(Order order) throws DAOException, SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(ADD_COMFIRMED_ORDER);
+            preparedStatement.setInt(1, order.getOrderId());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw new DAOException(e);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+        }
+
     }
 
     @Override
-    public int addRejectedOrder(OrderStatus orderStatus) {
-        return 0;
-    }
-
-    @Override
-    public int addComfirmedOrder(OrderStatus orderStatus) {
-        return 0;
-    }
-
-    @Override
-    public List<Order> allComfirmedOrders() throws DAOException {
+    public List<Order> getAllComfirmedOrders() throws DAOException {
         return null;
     }
 
     @Override
-    public List<Order> allRejectedOrders() throws DAOException {
+    public List<Order> getAllRejectedOrders() throws DAOException {
         return null;
     }
 
     @Override
-    public List<Order> allOrders() throws DAOException {
+    public List<Order> getAllOrders() throws DAOException {
         return null;
     }
 }

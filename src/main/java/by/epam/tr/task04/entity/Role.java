@@ -3,7 +3,7 @@ package by.epam.tr.task04.entity;
 import java.util.NoSuchElementException;
 
 public enum Role {
-    ADMINISTRATOR(1),
+    ADMIN(1),
     CLIENT(2);
 
     private final int id;

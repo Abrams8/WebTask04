@@ -14,6 +14,7 @@ public class User implements Serializable {
     private Integer age;
     private String phoneNumber;
     private Role role;
+    private String mail;
 
     public User() {
     }
@@ -90,17 +91,25 @@ public class User implements Serializable {
         this.role = role;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(pasportNumber, user.pasportNumber) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(age, user.age) && Objects.equals(phoneNumber, user.phoneNumber) && role == user.role;
+        return Objects.equals(id, user.id) && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(pasportNumber, user.pasportNumber) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(age, user.age) && Objects.equals(phoneNumber, user.phoneNumber) && role == user.role && Objects.equals(mail, user.mail);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, pasportNumber, name, surname, age, phoneNumber, role);
+        return Objects.hash(id, login, password, pasportNumber, name, surname, age, phoneNumber, role, mail);
     }
 
     @Override
@@ -115,6 +124,7 @@ public class User implements Serializable {
                 ", age=" + age +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", role=" + role +
+                ", mail='" + mail + '\'' +
                 '}';
     }
 }

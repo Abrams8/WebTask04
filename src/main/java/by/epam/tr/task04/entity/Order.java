@@ -12,6 +12,7 @@ public class Order implements Serializable {
     private String status;
     private Integer userId;
     private Integer carId;
+    private OrderStatus orderStatus;
 
     public Order(){}
 
