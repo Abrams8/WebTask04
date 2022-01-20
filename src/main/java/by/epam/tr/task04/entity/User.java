@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class User implements Serializable {
 
-    private Integer id;
+    private int id;
     private String login;
     private String password;
     private String pasportNumber;
@@ -23,7 +23,7 @@ public class User implements Serializable {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

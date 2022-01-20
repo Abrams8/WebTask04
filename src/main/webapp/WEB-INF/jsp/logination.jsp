@@ -1,4 +1,4 @@
-<%@ page import="by.epam.tr.task04.entity.Greeting" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="errorPage.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>

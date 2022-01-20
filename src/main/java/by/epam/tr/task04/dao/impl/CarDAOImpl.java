@@ -2,6 +2,7 @@ package by.epam.tr.task04.dao.impl;
 
 import by.epam.tr.task04.dao.CarDAO;
 import by.epam.tr.task04.dao.ConnectionPool.ConnectionPool;
+import by.epam.tr.task04.dao.ConnectionPool.ConnectionPoolException;
 import by.epam.tr.task04.dao.DAOException;
 import by.epam.tr.task04.entity.Car;
 
@@ -57,21 +58,15 @@ public class CarDAOImpl implements CarDAO {
                 car.setBodyType(resultSet.getString("body_type"));
                 allCarsList.add(car);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        } catch (ConnectionPoolException | SQLException e){
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,statement,resultSet);
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
         return allCarsList;
@@ -99,21 +94,15 @@ public class CarDAOImpl implements CarDAO {
                 car.setBodyType(resultSet.getString("body_type"));
                 allFreeCarsList.add(car);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        } catch (ConnectionPoolException | SQLException e){
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,statement,resultSet);
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
         return allFreeCarsList;
@@ -141,21 +130,15 @@ public class CarDAOImpl implements CarDAO {
                 car.setBodyType(resultSet.getString("body_type"));
                 allLockCarsList.add(car);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        } catch (ConnectionPoolException | SQLException e){
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,statement,resultSet);
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
         return allLockCarsList;
@@ -185,21 +168,15 @@ public class CarDAOImpl implements CarDAO {
                 car.setBodyType(resultSet.getString("body_type"));
                 allBrokenCarsList.add(car);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        } catch (ConnectionPoolException | SQLException e){
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,statement,resultSet);
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
         return allBrokenCarsList;
@@ -226,21 +203,15 @@ public class CarDAOImpl implements CarDAO {
                 car.setFuelType(resultSet.getString("fuel_type"));
                 car.setBodyType(resultSet.getString("body_type"));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        } catch (ConnectionPoolException | SQLException e){
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatement,resultSet);
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
         return car;
@@ -270,22 +241,17 @@ public class CarDAOImpl implements CarDAO {
             preparedStatementAddCarStatus.setInt(2, car.getCarId());
             preparedStatementAddCarStatus.executeUpdate();
             connection.commit();
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e){
             connection.rollback();
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatementAddCar != null) {
-                    preparedStatementAddCar.close();
-                }
-                if (preparedStatementAddCarStatus != null) {
-                    preparedStatementAddCarStatus.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatementAddCar);
+                /////  closeConnection(preparedStatementAddCarStatus)
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
 
@@ -310,19 +276,16 @@ public class CarDAOImpl implements CarDAO {
             preparedStatement.setInt(9, car.getCarId());
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e){
             connection.rollback();
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatement);
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
 
@@ -344,22 +307,17 @@ public class CarDAOImpl implements CarDAO {
             preparedStatementDeleteCarStatus.setInt(1, car.getCarId());
             preparedStatementDeleteCarStatus.executeUpdate();
             connection.commit();
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e){
             connection.rollback();
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatementDeleteCar != null) {
-                    preparedStatementDeleteCar.close();
-                }
-                if (preparedStatementDeleteCarStatus != null) {
-                    preparedStatementDeleteCarStatus.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatementDeleteCar);
+                //  connectionPool.closeConnection(preparedStatementDeleteCarStatus)
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
 
@@ -379,19 +337,16 @@ public class CarDAOImpl implements CarDAO {
             preparedStatement.setInt(4, car.getCarId());
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (SQLException e) {
+        }catch (ConnectionPoolException | SQLException e){
             connection.rollback();
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatement);
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
 
@@ -412,19 +367,16 @@ public class CarDAOImpl implements CarDAO {
             preparedStatement.setInt(4, car.getCarId());
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e){
             connection.rollback();
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatement);
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
 
@@ -441,19 +393,16 @@ public class CarDAOImpl implements CarDAO {
             preparedStatement.setInt(1, car.getCarId());
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e){
             connection.rollback();
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatement);
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
 
@@ -470,19 +419,16 @@ public class CarDAOImpl implements CarDAO {
             preparedStatement.setInt(1, car.getCarId());
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e){
             connection.rollback();
-            e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatement);
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
 
@@ -500,21 +446,15 @@ public class CarDAOImpl implements CarDAO {
             while (resultSet.next()) {
                 maxId = resultSet.getInt(1);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        } catch (ConnectionPoolException | SQLException e){
+            throw new DAOException(e);
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,statement,resultSet);
+            }
+            catch (ConnectionPoolException e){
+                throw new DAOException(e);
             }
         }
         return maxId;

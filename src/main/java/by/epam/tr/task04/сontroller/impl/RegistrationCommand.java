@@ -46,6 +46,7 @@ public class RegistrationCommand implements Command {
             user.setPhoneNumber(phoneNumber);
             user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
             user.setRole(Role.getRoleById(2));
+            user.setMail(mail);
 
             try {
                 userService.addUser(user);

@@ -1,6 +1,7 @@
 package by.epam.tr.task04.dao.impl;
 
 import by.epam.tr.task04.dao.ConnectionPool.ConnectionPool;
+import by.epam.tr.task04.dao.ConnectionPool.ConnectionPoolException;
 import by.epam.tr.task04.dao.DAOException;
 import by.epam.tr.task04.dao.OrderDAO;
 import by.epam.tr.task04.entity.Order;
@@ -45,21 +46,16 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatementAddCar.setDouble(6, order.getCarId());
             preparedStatementAddCar.executeUpdate();
             connection.commit();
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e){
             connection.rollback();
             throw new DAOException(e);
-        } finally {
-            try {
-                if (preparedStatementAddCar != null) {
-                    preparedStatementAddCar.close();
-                }
-                if (preparedStatementAddCarStatus != null) {
-                    preparedStatementAddCarStatus.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatementAddCar);
+                //  connectionPool.closeConnection(preparedStatementAddCarStatus);
+            }
+            catch (ConnectionPoolException e){
                 throw new DAOException(e);
             }
         }
@@ -80,21 +76,16 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatementDeleteCar.executeUpdate();
 
             connection.commit();
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e){
             connection.rollback();
             throw new DAOException(e);
-        } finally {
-            try {
-                if (preparedStatementDeleteCar != null) {
-                    preparedStatementDeleteCar.close();
-                }
-                if (preparedStatementDeleteCarStatus != null) {
-                    preparedStatementDeleteCarStatus.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatementDeleteCar);
+                // connectionPool.closeConnection(preparedStatementDeleteCarStatus);
+            }
+            catch (ConnectionPoolException e){
                 throw new DAOException(e);
             }
         }
@@ -114,18 +105,15 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.setInt(3, order.getCarId());
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e){
             connection.rollback();
             throw new DAOException(e);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatement);
+            }
+            catch (ConnectionPoolException e){
                 throw new DAOException(e);
             }
         }
@@ -144,18 +132,15 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.setInt(2, order.getOrderId());
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e){
             connection.rollback();
             throw new DAOException(e);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatement);
+            }
+            catch (ConnectionPoolException e){
                 throw new DAOException(e);
             }
         }
@@ -172,18 +157,15 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.setInt(1, order.getOrderId());
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e){
             connection.rollback();
             throw new DAOException(e);
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
+        }
+        finally {
+            try{
+                connectionPool.closeConnection(connection,preparedStatement);
+            }
+            catch (ConnectionPoolException e){
                 throw new DAOException(e);
             }
         }
