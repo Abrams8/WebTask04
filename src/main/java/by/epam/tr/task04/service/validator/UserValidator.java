@@ -11,6 +11,8 @@ public class UserValidator {
     private static final String LOGIN_VALIDATOR = "^[A-Za-z0-9]{3,15}$";
     private static final String PASSPORT_NUMBER_VALIDATOR = "^[a-zA-Z]{2}+[0-9]{6}+$";
     private static final String NAME_OR_SURNAME_VALIDATOR = "^[a-zA-Z]{2,}";
+    private static final String AGE_VALIDATOR = "^[0-9]{2,}";
+
 
 
     public boolean validatePhoneNumber(String phone) {
@@ -67,23 +69,26 @@ public class UserValidator {
         return matcher.matches();
     }
 
+    public boolean validateAge(String age) {
+        if (notEmptyStringValidator.isNotEmpty(age) == false) {
+            return false;
+        }
+        Pattern pattern = Pattern.compile(AGE_VALIDATOR);
+        Matcher matcher = pattern.matcher(age);
+        return matcher.matches();
+    }
+
     public boolean registrationUserValidator(String login, String password, String name, String surname, String phoneNumber, String mail, String passportNumber, String age) {
         if (
-        !notEmptyStringValidator.isNotEmpty(login) &&
-        !notEmptyStringValidator.isNotEmpty(password) &&
-        !notEmptyStringValidator.isNotEmpty(name) &&
-        !notEmptyStringValidator.isNotEmpty(surname) &&
-        !notEmptyStringValidator.isNotEmpty(passportNumber) &&
-        !notEmptyStringValidator.isNotEmpty(mail) &&
-        !notEmptyStringValidator.isNotEmpty(passportNumber) &&
-        !notEmptyStringValidator.isNotEmpty(age) &&
-                !validateLogin(login) &&
-                !validateMail(mail) &&
-                !validatePassword(password) &&
-                !validatePassportNumber(passportNumber) &&
-                !validateNameAndSurname(name) &&
-                !validateNameAndSurname(surname)
-        ) { return false;
-        } else return true;
+                validateLogin(login) &&
+                validateMail(mail) &&
+                validatePassword(password) &&
+                validatePassportNumber(passportNumber) &&
+                validateNameAndSurname(name) &&
+                validateNameAndSurname(surname) &&
+                        validateAge(age) &&
+                        validatePhoneNumber(phoneNumber)
+        ) { return true;
+        } else return false;
     }
 }

@@ -16,7 +16,7 @@ public class UserDAOImpl implements UserDAO {
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    private final static String ADD_USER = "INSERT INTO Users(user_id, login, password, pasport_number, name, surname, age, phone_number, user_role_id, mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private final static String ADD_USER = "INSERT INTO Users(user_id, login, password, pasport_number, name, surname, age, phone_number, user_roles_id, mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final static String ADD_USER_TO_BLACK_LIST = "INSERT INTO Black_list(user_id, reason) VALUES(?, ?);";
     private final static String GET_USER_BY_ID = "SELECT * FROM Users NATURAL JOIN black_list NATURAL JOIN user_roles WHERE user_id=?;";
     private final static String GET_ALL_USERS = "SELECT * FROM Users NATURAL JOIN User_roles NATURAL JOIN Black_list;";

@@ -36,4 +36,8 @@
         <filter-name>Charset Filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    
+    <listener>
+        <listener-class>by.epam.tr.task04.сontroller.listner.ConnectionPoolInitListner</listener-class>
+    </listener>
 </web-app>

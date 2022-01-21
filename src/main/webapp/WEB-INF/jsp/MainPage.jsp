@@ -26,12 +26,12 @@
 <body>
 <div class="header_top">
     <div class="welcome_message">
-        <c:if test="${not empty role and role eq 'Admin'}" var="isAdmin">
-            <h1>Hello, Admin!</h1>
+        <c:if test="${not empty login and role eq 'Client'}" var="isClient">
+            <h1>Hello, Client!</h1>
         </c:if>
 
-        <c:if test="${empty role}" var = "isUnknownUser">
-            <h1>Welcome!</h1>
+        <c:if test="${not empty login and role eq 'Admin'}" var = "isAdmin">
+            <h1>Hello, Admin!</h1>
         </c:if>
     </div>
 
@@ -51,9 +51,10 @@
 
 <div class="header_line">
     <c:if test="${not empty login}" var="isLoginIn">
-        <a href="MyController?command=LOGOUT">Logout</a>
-        <a href="MyController?command=GO_TO_ACCAUNT_PAGE">Accaunt information</a>
-        <a href="MyController?command=GO_TO_FREE_CARS_PAGE">Rent a car</a>
+        <a href="MyController?command=LOG_OUT">Logout</a>
+        <a href="MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE">Accaunt information</a>
+        <a href="MyController?command=GO_TO_FREE_CARS_PAGE">All cars</a>
+        <a href="MyController?command=GO_TO_MY_ORDERS_PAGE">My orders</a>
     </c:if>
 
     <div class="header_buttons">

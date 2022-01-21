@@ -50,21 +50,20 @@ public class RegistrationCommand implements Command {
 
             try {
                 userService.addUser(user);
+                HttpSession session = request.getSession();
+                session.setAttribute("login", login);
+                session.setAttribute("role", user.getRole());
+
+                response.sendRedirect("MyController?command=GO_TO_MAIN_PAGE");
             } catch (ServiceException e){
                 log.error(e);
             }
-
-            HttpSession session = request.getSession();
-            session.setAttribute("login", login);
-            session.setAttribute("role", user.getRole());
-
-            response.sendRedirect("MyController?command=GO_TO_MAIN_PAGE");
 
         } else {
             log.info("Registration failed, smth is not valid!");
             String errorMessage = "Registration failed, smth is not valid!";
             request.setAttribute("errorMessage", errorMessage);
-            response.sendRedirect("/WEB-INF/jsp/Registration.jsp");
+            response.sendRedirect("MyController?command=GO_TO_REGISTRATION_PAGE");
         }
     }
 }
