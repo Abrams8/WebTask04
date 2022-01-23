@@ -8,6 +8,7 @@ import by.epam.tr.task04.service.exception.ServiceException;
 import by.epam.tr.task04.service.validator.UserValidator;
 import by.epam.tr.task04.сontroller.Command;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +39,7 @@ public class RegistrationCommand implements Command {
         UserValidator userValidator = new UserValidator();
         if (userValidator.registrationUserValidator(login, password, name, surname, phoneNumber, mail, passportNumber, age)) {
             User user = new User();
+
             user.setName(name);
             user.setSurname(surname);
             user.setLogin(login);
@@ -45,25 +47,27 @@ public class RegistrationCommand implements Command {
             user.setAge(Integer.parseInt(age));
             user.setPhoneNumber(phoneNumber);
             user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
-            user.setRole(Role.getRoleById(2));
+            user.setRole(Role.Client);
             user.setMail(mail);
 
             try {
                 userService.addUser(user);
                 HttpSession session = request.getSession();
-                session.setAttribute("login", login);
-                session.setAttribute("role", user.getRole());
-
+                session.setAttribute("login", user.getLogin());
+                session.setAttribute("role", Role.getRoleById(user.getRole().getRoleId()).toString());
                 response.sendRedirect("MyController?command=GO_TO_MAIN_PAGE");
             } catch (ServiceException e){
                 log.error(e);
             }
-
         } else {
             log.info("Registration failed, smth is not valid!");
-            String errorMessage = "Registration failed, smth is not valid!";
+            String errorMessage = "Registration failed, smth is not valid! Try again!";
             request.setAttribute("errorMessage", errorMessage);
-            response.sendRedirect("MyController?command=GO_TO_REGISTRATION_PAGE");
+            // response.sendRedirect("MyController?command=GO_TO_REGISTRATION_PAGE");
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/Registration.jsp");
+            dispatcher.forward(request, response);
+        }
+
         }
     }
-}

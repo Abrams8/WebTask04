@@ -34,11 +34,6 @@
 </style>
 <body>
 
-<c:set var="errorMessage" scope="page" value="${requestScope.get('errorMessage')}"/>
-<c:if test="${not empty errorMessage}">
-    <c:out value="${errorMessage}"/>
-</c:if>
-
 <div class="header_top">
 
     <div class="welcome_message">
@@ -57,6 +52,16 @@
         </form>
     </div>
 </div>
+<div class="header_top2">
+    <div class="welcome_message">
+
+        <c:if test="${not empty errorMessage}" var="errorMessage">
+            <h3><c:out value="${requestScope.errorMessage}"/></h3>
+        </c:if>
+
+    </div>
+</div>
+
 
 <div class="main">
 

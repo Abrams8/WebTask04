@@ -20,6 +20,7 @@ public final class CommandProvider {
         commands.put("CHANGE_LOCALE", new ChangeLocale());
         commands.put("LOG_OUT", new LogOutCommand());
         commands.put("GO_TO_ACCAUNT_INFORMATION_PAGE", new GoToAccauntInformationPage());
+        commands.put("GO_TO_MY_ORDERS_PAGE", new GoToMyOrdersPageCommand());
     }
 
     public final Command getCommand(String commandName){

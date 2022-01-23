@@ -11,7 +11,7 @@ public class User implements Serializable {
     private String pasportNumber;
     private String name;
     private String surname;
-    private Integer age;
+    private int age;
     private String phoneNumber;
     private Role role;
     private String mail;
@@ -67,7 +67,7 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
-    public Integer getAge() {
+    public int getAge() {
         return age;
     }
 

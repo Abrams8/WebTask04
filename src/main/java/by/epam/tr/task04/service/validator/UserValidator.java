@@ -6,17 +6,16 @@ import java.util.regex.Pattern;
 public class UserValidator {
 
     private static final String PHONE_NUMBER_VALIDATOR = "\\+?\\d{9,12}";
-    private static final String PASSWORD_VALIDATOR = "^.*(?=.{6,})(?=.*d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$";
+    private static final String PASSWORD_VALIDATOR = "^(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z]{6,}+$";
     private static final String MAIL_VALIDATOR = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
     private static final String LOGIN_VALIDATOR = "^[A-Za-z0-9]{3,15}$";
-    private static final String PASSPORT_NUMBER_VALIDATOR = "^[a-zA-Z]{2}+[0-9]{6}+$";
+    private static final String PASSPORT_NUMBER_VALIDATOR = "^[a-zA-Z]{2}+[0-9]{7}+$";
     private static final String NAME_OR_SURNAME_VALIDATOR = "^[a-zA-Z]{2,}";
-    private static final String AGE_VALIDATOR = "^[0-9]{2,}";
-
+    private static final String AGE_VALIDATOR = "^[0-9]{2,3}+$";
 
 
     public boolean validatePhoneNumber(String phone) {
-        if (notEmptyStringValidator.isNotEmpty(phone) == false) {
+        if (!notEmptyStringValidator.isNotEmpty(phone)) {
             return false;
         }
         Pattern pattern = Pattern.compile(PHONE_NUMBER_VALIDATOR);
@@ -25,7 +24,7 @@ public class UserValidator {
     }
 
     public boolean validatePassword(String password) {
-        if (notEmptyStringValidator.isNotEmpty(password) == false) {
+        if (!notEmptyStringValidator.isNotEmpty(password)) {
             return false;
         }
         Pattern pattern = Pattern.compile(PASSWORD_VALIDATOR);
@@ -34,7 +33,7 @@ public class UserValidator {
     }
 
     public boolean validateMail(String mail) {
-        if (notEmptyStringValidator.isNotEmpty(mail) == false) {
+        if (!notEmptyStringValidator.isNotEmpty(mail)) {
             return false;
         }
         Pattern pattern = Pattern.compile(MAIL_VALIDATOR);
@@ -43,7 +42,7 @@ public class UserValidator {
     }
 
     public boolean validateLogin(String login) {
-        if (notEmptyStringValidator.isNotEmpty(login) == false) {
+        if (!notEmptyStringValidator.isNotEmpty(login)) {
             return false;
         }
         Pattern pattern = Pattern.compile(LOGIN_VALIDATOR);
@@ -52,7 +51,7 @@ public class UserValidator {
     }
 
     public boolean validatePassportNumber(String passportNumber) {
-        if (notEmptyStringValidator.isNotEmpty(passportNumber) == false) {
+        if (!notEmptyStringValidator.isNotEmpty(passportNumber)) {
             return false;
         }
         Pattern pattern = Pattern.compile(PASSPORT_NUMBER_VALIDATOR);
@@ -61,7 +60,7 @@ public class UserValidator {
     }
 
     public boolean validateNameAndSurname(String nameOrSurname) {
-        if (notEmptyStringValidator.isNotEmpty(nameOrSurname) == false) {
+        if (!notEmptyStringValidator.isNotEmpty(nameOrSurname)) {
             return false;
         }
         Pattern pattern = Pattern.compile(NAME_OR_SURNAME_VALIDATOR);
@@ -70,7 +69,7 @@ public class UserValidator {
     }
 
     public boolean validateAge(String age) {
-        if (notEmptyStringValidator.isNotEmpty(age) == false) {
+        if (!notEmptyStringValidator.isNotEmpty(age)) {
             return false;
         }
         Pattern pattern = Pattern.compile(AGE_VALIDATOR);
@@ -79,16 +78,16 @@ public class UserValidator {
     }
 
     public boolean registrationUserValidator(String login, String password, String name, String surname, String phoneNumber, String mail, String passportNumber, String age) {
-        if (
-                validateLogin(login) &&
+        if (validateLogin(login) &&
                 validateMail(mail) &&
                 validatePassword(password) &&
                 validatePassportNumber(passportNumber) &&
                 validateNameAndSurname(name) &&
                 validateNameAndSurname(surname) &&
-                        validateAge(age) &&
-                        validatePhoneNumber(phoneNumber)
-        ) { return true;
+                validateAge(age) &&
+                validatePhoneNumber(phoneNumber)) {
+            return true;
         } else return false;
     }
 }
+
