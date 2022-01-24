@@ -63,9 +63,8 @@ public class RegistrationCommand implements Command {
             log.info("Registration failed, smth is not valid!");
             String errorMessage = "Registration failed, smth is not valid! Try again!";
             request.setAttribute("errorMessage", errorMessage);
-            // response.sendRedirect("MyController?command=GO_TO_REGISTRATION_PAGE");
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/Registration.jsp");
+            //response.sendRedirect("MyController?command=GO_TO_REGISTRATION_PAGE");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("MyController?command=GO_TO_REGISTRATION_PAGE");
             dispatcher.forward(request, response);
         }
 

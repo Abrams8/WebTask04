@@ -228,7 +228,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setPhoneNumber(resultSet.getString("phone_number"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
-                user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
+                user.setRole(Role.getRoleById(resultSet.getInt("user_roles_id")));
                 user.setMail(resultSet.getString("mail"));
             }
         } catch (ConnectionPoolException | SQLException e){

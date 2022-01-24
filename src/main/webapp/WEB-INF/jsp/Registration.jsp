@@ -22,6 +22,7 @@
     <fmt:message bundle="${loc}" key="local.button.registration" var="button_registration"/>
     <fmt:message bundle="${loc}" key="local.button.ru" var="ru_button"/>
     <fmt:message bundle="${loc}" key="local.button.en" var="en_button"/>
+    <fmt:message bundle="${loc}" key="local.message.registration.errorMessageRegistration" var="errorMessageRegistration" />
 
     <link rel="stylesheet" href="css/registrationStyle.css" type="text/css">
 
@@ -55,8 +56,8 @@
 <div class="header_top2">
     <div class="welcome_message">
 
-        <c:if test="${not empty errorMessage}" var="errorMessage">
-            <h3><c:out value="${requestScope.errorMessage}"/></h3>
+        <c:if test="${not empty requestScope.errorMessage}" var="errorMessageRegistration">
+            <h3 style="color: darkred"><c:out value="${requestScope.errorMessage}"/></h3>
         </c:if>
 
     </div>
@@ -80,28 +81,19 @@
 
         <div class="inputs">
             <input id="1" type="text" name="login" value=""/>
-            <br/>
             <input id="2" type="password" name="password" value=""/>
-            <br/>
             <input id="3" type="text" name="name" value=""/>
-            <br/>
             <input id="4" type="text" name="surname" value=""/>
-            <br/>
             <input id="5" type="text" name="phoneNumber" value=""/>
-            <br/>
             <input id="6" type="text" name="mail" value=""/>
-            <br/>
             <input id="7" type="text" name="passportNumber" value=""/>
-            <br/>
             <input id="8" type="text" name="age" value=""/>
+            <br>
+            <input type="submit" value="${button_registration}"></input>
+            <br>
+           <a href="MyController?command=GO_TO_MAIN_PAGE" style="color: black">${go_to_main}</a>
         </div>
-
-        <input type="submit" value="${button_registration}"></input>
     </form>
-
-    <a href="MyController?command=GO_TO_MAIN_PAGE">${go_to_main}</a>
-
-
 </div>
 </body>
 </html>

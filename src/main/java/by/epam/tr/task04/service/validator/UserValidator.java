@@ -89,5 +89,11 @@ public class UserValidator {
             return true;
         } else return false;
     }
+
+    public boolean loginationUserValidator(String login, String password) {
+        if (validateLogin(login) && validatePassword(password)) {
+            return true;
+        } else return false;
+    }
 }
 

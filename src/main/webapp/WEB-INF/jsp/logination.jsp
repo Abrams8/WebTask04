@@ -44,6 +44,16 @@
     </div>
 </div>
 
+<div class="header_top2">
+    <div class="welcome_message">
+
+        <c:if test="${not empty requestScope.errorMessage}" var="errorMessageRegistration">
+            <h3 style="color: darkred"><c:out value="${requestScope.errorMessage}"/></h3>
+        </c:if>
+
+    </div>
+</div>
+
 <div class="main">
 
     <form class="login_forms" action="MyController" method="post">

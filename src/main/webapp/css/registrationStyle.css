@@ -69,7 +69,7 @@ a {
 }
 
 .main a{
-    margin-top: 10px;
+    margin-top: auto;
     font-weight: 500;
 }
 
@@ -89,20 +89,21 @@ a {
 
 .labels label {
 
-    display: block;
+    display: table;
     color: white;
-    font-weight: 1500;
-    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
 }
 
 .inputs input{
-    display: block;
+    display: table;
 
 }
 
 .login_forms > input{
 
-    width: 50px;
+    width: 60px;
 
     border: none;
     background: white;

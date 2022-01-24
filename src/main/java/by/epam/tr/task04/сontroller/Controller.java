@@ -1,5 +1,6 @@
 package by.epam.tr.task04.сontroller;
 
+import by.epam.tr.task04.dao.DAOException;
 import by.epam.tr.task04.service.exception.ServiceException;
 
 import javax.servlet.*;
@@ -35,7 +36,7 @@ public class Controller extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             process(request, response);
-        } catch (ServiceException e) {
+        } catch (ServiceException | DAOException e) {
             log.error(e);
         }
     }
@@ -43,12 +44,12 @@ public class Controller extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             process(request, response);
-        } catch (ServiceException e) {
+        } catch (ServiceException | DAOException e) {
             log.error(e);
         }
     }
 
-    protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServiceException {
+    protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServiceException, DAOException {
         String commandName = request.getParameter("command");
         Command command = provider.getCommand(commandName);
         command.execute(request, response);

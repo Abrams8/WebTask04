@@ -25,6 +25,12 @@ a {
     padding: 10px 5px 0 5px;
 }
 
+.header_top2 {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 5px 0 5px;
+}
+
 .welcome_message {
 
     display: flex;
@@ -96,7 +102,7 @@ a {
 
 .login_forms > input{
 
-    width: 60px;
+    width: 100px;
 
     border: none;
     background: white;

@@ -52,12 +52,12 @@
 
 <div class="header_line">
     <c:if test="${not empty login}" var="isLoginIn">
-        <c:out value="ClienOrAdmin" />
+        <c:out value="ClienOrAdmin " />
 
-        <a href="MyController?command=LOG_OUT">Logout</a>
-        <a href="MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE">Accaunt information</a>
-        <a href="MyController?command=GO_TO_FREE_CARS_PAGE">All cars</a>
-        <a href="MyController?command=GO_TO_MY_ORDERS_PAGE">My orders</a>
+        <a href="MyController?command=LOG_OUT">Logout </a>
+        <a href="MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE">Accaunt information </a>
+        <a href="MyController?command=GO_TO_FREE_CARS_PAGE">All cars </a>
+        <a href="MyController?command=GO_TO_MY_ORDERS_PAGE">My orders </a>
     </c:if>
 
     <div class="header_buttons">

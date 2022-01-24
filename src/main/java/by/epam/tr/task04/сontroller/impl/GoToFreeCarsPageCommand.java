@@ -1,5 +1,6 @@
 package by.epam.tr.task04.сontroller.impl;
 
+import by.epam.tr.task04.dao.DAOException;
 import by.epam.tr.task04.entity.Car;
 import by.epam.tr.task04.service.ServiceFactory;
 import by.epam.tr.task04.service.exception.ServiceException;
@@ -19,7 +20,7 @@ public class GoToFreeCarsPageCommand implements Command {
     private final static String goToFreeCars = "/WEB-INF/jsp/freeCarsPage.jsp";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServiceException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServiceException, DAOException {
 
         List<Car> freeCars = ServiceFactory.getInstance().getCarService().getAllFreeCars();
         for (int i = 0; i<freeCars.size(); i++){

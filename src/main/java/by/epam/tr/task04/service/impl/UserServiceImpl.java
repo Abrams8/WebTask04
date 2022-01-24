@@ -158,18 +158,27 @@ public class UserServiceImpl implements UserService {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
-    @Override
-    public User logination(String login, String password) throws ServiceException {
-        if (!notEmptyStringValidator.isNotEmpty(login) && !notEmptyStringValidator.isNotEmpty(password)) {
-            return null;
-        }
-        String realPasswordHash;
-        realPasswordHash = findUserByLogin(login).getPassword();
-        if (BCrypt.checkpw(password, realPasswordHash)) {
-            return findUserByLogin(login);
-        } else return null;
+    public boolean checkPassword(String password, String realHashedPassword){
+        return BCrypt.checkpw(password, realHashedPassword);
     }
 
+    @Override
+    public boolean logination(String login, String password) throws ServiceException {
+        UserValidator userValidator = new UserValidator();
+        if (!userValidator.loginationUserValidator(login, password)) {
+            return false;
+        } else {
+            try{
+                User user = new User();
+                user = userDAO.findUserByLogin(login);
+                if(checkPassword(password, user.getPassword())){
+                    return true;
+                }
+            } catch (DAOException e) {
+               throw new ServiceException (e);
+            }
+        } return false;
+    }
     @Override
     public int getUserRole(int userId) throws DAOException, ServiceException {
         int userRole;
