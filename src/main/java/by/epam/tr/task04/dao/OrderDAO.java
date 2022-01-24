@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface OrderDAO {
 
-    void addOrder(Order order) throws SQLException, DAOException;
-    void deleteOrder(Order order) throws SQLException, DAOException;
-    void updateOrderStatusByOrderId(Order order, OrderStatus orderStatus) throws DAOException, SQLException;
+    void addOrder(Order order) throws DAOException;
+    void deleteOrder(Order order) throws DAOException;
+    void updateOrderStatusByOrderId(Order order, OrderStatus orderStatus) throws DAOException;
 
-    void addRejectedOrder (Order order, String rejectionReason) throws DAOException, SQLException;
-    void addComfirmedOrder (Order order) throws DAOException, SQLException;
+    void addRejectedOrder (Order order, String rejectionReason) throws DAOException;
+    void addComfirmedOrder (Order order) throws DAOException;
 
     List<Order> getAllComfirmedOrders () throws DAOException;
     List<Order> getAllRejectedOrders () throws DAOException;

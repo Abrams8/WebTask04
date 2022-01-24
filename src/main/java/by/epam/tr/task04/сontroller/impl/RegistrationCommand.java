@@ -19,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
+
 public class RegistrationCommand implements Command {
 
     private final Logger log = LogManager.getLogger(RegistrationCommand.class);
@@ -38,8 +39,8 @@ public class RegistrationCommand implements Command {
 
         UserValidator userValidator = new UserValidator();
         if (userValidator.registrationUserValidator(login, password, name, surname, phoneNumber, mail, passportNumber, age)) {
-            User user = new User();
 
+            User user = new User();
             user.setName(name);
             user.setSurname(surname);
             user.setLogin(login);
@@ -60,10 +61,9 @@ public class RegistrationCommand implements Command {
                 log.error(e);
             }
         } else {
-            log.info("Registration failed, smth is not valid!");
             String errorMessage = "Registration failed, smth is not valid! Try again!";
+            log.error(errorMessage);
             request.setAttribute("errorMessage", errorMessage);
-            //response.sendRedirect("MyController?command=GO_TO_REGISTRATION_PAGE");
             RequestDispatcher dispatcher = request.getRequestDispatcher("MyController?command=GO_TO_REGISTRATION_PAGE");
             dispatcher.forward(request, response);
         }

@@ -30,7 +30,7 @@ public class OrderDAOImpl implements OrderDAO {
 
 
     @Override
-    public void addOrder(Order order) throws DAOException, SQLException {
+    public void addOrder(Order order) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatementAddCar = null;
         PreparedStatement preparedStatementAddCarStatus = null;
@@ -47,7 +47,12 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatementAddCar.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -64,7 +69,7 @@ public class OrderDAOImpl implements OrderDAO {
 
 
     @Override
-    public void deleteOrder(Order order) throws DAOException, SQLException {
+    public void deleteOrder(Order order) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatementDeleteCar = null;
         PreparedStatement preparedStatementDeleteCarStatus = null;
@@ -77,7 +82,12 @@ public class OrderDAOImpl implements OrderDAO {
 
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -93,7 +103,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public void updateOrderStatusByOrderId(Order order, OrderStatus orderStatus) throws DAOException, SQLException {
+    public void updateOrderStatusByOrderId(Order order, OrderStatus orderStatus) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -106,7 +116,12 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -121,7 +136,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public void addRejectedOrder(Order order, String rejectionReason) throws DAOException, SQLException {
+    public void addRejectedOrder(Order order, String rejectionReason) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -133,7 +148,12 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -147,7 +167,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     }
     @Override
-    public void addComfirmedOrder(Order order) throws DAOException, SQLException {
+    public void addComfirmedOrder(Order order) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -158,7 +178,12 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {

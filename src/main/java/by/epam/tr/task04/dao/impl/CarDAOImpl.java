@@ -37,7 +37,7 @@ public class CarDAOImpl implements CarDAO {
 
 
     @Override
-    public List<Car> getAllCars() throws DAOException, SQLException {
+    public List<Car> getAllCars() throws DAOException {
         List<Car> allCarsList = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
@@ -73,7 +73,7 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public List<Car> getAllFreeCars() throws DAOException, SQLException {
+    public List<Car> getAllFreeCars() throws DAOException {
         List<Car> allFreeCarsList = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
@@ -109,7 +109,7 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public List<Car> getAllBusyCars() throws DAOException, SQLException {
+    public List<Car> getAllBusyCars() throws DAOException {
         List<Car> allLockCarsList = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
@@ -147,7 +147,7 @@ public class CarDAOImpl implements CarDAO {
 
 
     @Override
-    public List<Car> getAllBrokenCars() throws DAOException, SQLException {
+    public List<Car> getAllBrokenCars() throws DAOException {
         List<Car> allBrokenCarsList = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
@@ -183,7 +183,7 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public Car findCarById(int carId) throws DAOException, SQLException {
+    public Car findCarById(int carId) throws DAOException {
         Car car = new Car();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -218,7 +218,7 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void addCar(Car car) throws DAOException, SQLException {
+    public void addCar(Car car) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatementAddCar = null;
         PreparedStatement preparedStatementAddCarStatus = null;
@@ -242,7 +242,12 @@ public class CarDAOImpl implements CarDAO {
             preparedStatementAddCarStatus.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -258,7 +263,7 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void updateCar(Car car) throws DAOException, SQLException {
+    public void updateCar(Car car) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -277,7 +282,12 @@ public class CarDAOImpl implements CarDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -292,7 +302,7 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void deleteCar(Car car) throws DAOException, SQLException {
+    public void deleteCar(Car car) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatementDeleteCar = null;
         PreparedStatement preparedStatementDeleteCarStatus = null;
@@ -308,7 +318,12 @@ public class CarDAOImpl implements CarDAO {
             preparedStatementDeleteCarStatus.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -324,7 +339,7 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void addCarToRepair(Car car, Date startRepaired, Date endRepaired) throws DAOException, SQLException {
+    public void addCarToRepair(Car car, Date startRepaired, Date endRepaired) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -338,7 +353,12 @@ public class CarDAOImpl implements CarDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         }catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -354,7 +374,7 @@ public class CarDAOImpl implements CarDAO {
 
 
     @Override
-    public void addCarToBusy(Car car, Date startRent, Date endRent) throws DAOException, SQLException {
+    public void addCarToBusy(Car car, Date startRent, Date endRent) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -368,7 +388,12 @@ public class CarDAOImpl implements CarDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -383,7 +408,7 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void deleteCarFromRepair(Car car) throws DAOException, SQLException {
+    public void deleteCarFromRepair(Car car) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -394,7 +419,12 @@ public class CarDAOImpl implements CarDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -409,7 +439,7 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void deleteCarFromBusy(Car car) throws DAOException, SQLException {
+    public void deleteCarFromBusy(Car car) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -420,7 +450,12 @@ public class CarDAOImpl implements CarDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -434,7 +469,7 @@ public class CarDAOImpl implements CarDAO {
 
     }
     @Override
-    public int getMaxCarStatusId() throws DAOException, SQLException {
+    public int getMaxCarStatusId() throws DAOException {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;

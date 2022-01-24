@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class FreeCarsCommand implements Command {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServiceException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
 

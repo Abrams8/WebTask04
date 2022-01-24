@@ -28,11 +28,11 @@
 <div class="header_top">
     <div class="welcome_message">
         <c:if test="${not empty login and role eq 'Client'}" var="isClient">
-            <h1><c:out value="Hello, Client" /></h1>
+            <h1><c:out value="Hello, ${sessionScope.login}" /></h1>
         </c:if>
 
         <c:if test="${not empty login and role eq 'Admin'}" var = "isAdmin">
-            <h1><c:out value="Hello, Admin" /></h1>
+            <h1><c:out value="Hello, ${sessionScope.login}" /></h1>
         </c:if>
     </div>
 
@@ -51,14 +51,12 @@
 </div>
 
 <div class="header_line">
-    <c:if test="${not empty login}" var="isLoginIn">
-        <c:out value="ClienOrAdmin " />
-
-        <a href="MyController?command=LOG_OUT">Logout </a>
-        <a href="MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE">Accaunt information </a>
-        <a href="MyController?command=GO_TO_FREE_CARS_PAGE">All cars </a>
-        <a href="MyController?command=GO_TO_MY_ORDERS_PAGE">My orders </a>
-    </c:if>
+<%--    <c:if test="${not empty login}" var="isLoginIn">--%>
+<%--        <a href="MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE">Accaunt information </a>--%>
+<%--        <a href="MyController?command=GO_TO_FREE_CARS_PAGE">All cars </a>--%>
+<%--        <a href="MyController?command=GO_TO_MY_ORDERS_PAGE">My orders </a>--%>
+<%--        <a href="MyController?command=LOG_OUT">Logout </a>--%>
+<%--    </c:if>--%>
 
     <div class="header_buttons">
         <a href="MyController?command=GO_TO_FREE_CARS_PAGE">${rent_car}</a>
@@ -67,7 +65,6 @@
     </div>
 
     <c:if test="${empty role}" var = "isUnknownUser">
-        <c:out value="UnknownUser" />
 
         <div class="logination_registration">
             <a href="MyController?command=GO_TO_LOGINATION_PAGE" >${login_in}</a>
@@ -75,7 +72,17 @@
         </div>
 
     </c:if>
-
+    </div>
+        <div class="header_line2">
+<div class="user_buttons" >
+    <c:if test="${not empty login}" var="isLoginIn">
+       <br>
+        <a href="MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE"><h3 style="color: white; margin: 10px">Accaunt information </h3></a>
+        <a href="MyController?command=GO_TO_FREE_CARS_PAGE"><h3 style="color: white; margin: 10px">All cars </h3></a>
+        <a href="MyController?command=GO_TO_MY_ORDERS_PAGE"><h3 style="color: white; margin: 10px">My orders </h3></a>
+        <a href="MyController?command=LOG_OUT"><h3 style="color: white; margin: 10px">Logout </h3></a>
+    </c:if>
+</div>
 </div>
 </body>
 </html>

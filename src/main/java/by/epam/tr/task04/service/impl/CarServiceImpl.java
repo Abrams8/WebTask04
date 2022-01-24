@@ -8,7 +8,6 @@ import by.epam.tr.task04.service.CarService;
 import by.epam.tr.task04.service.exception.ServiceException;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 
 public class CarServiceImpl implements CarService {
@@ -20,7 +19,7 @@ public class CarServiceImpl implements CarService {
         List<Car> allCars;
         try{
             allCars = carDAO.getAllCars();
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         } return allCars;
     }
@@ -30,7 +29,7 @@ public class CarServiceImpl implements CarService {
         List<Car> allFreeCars;
         try{
             allFreeCars = carDAO.getAllFreeCars();
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         } return allFreeCars;
     }
@@ -40,7 +39,7 @@ public class CarServiceImpl implements CarService {
         List<Car> allBusyCars;
         try{
             allBusyCars = carDAO.getAllBusyCars();
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         } return allBusyCars;
     }
@@ -50,7 +49,7 @@ public class CarServiceImpl implements CarService {
         List<Car> allBrokenCars;
         try{
             allBrokenCars = carDAO.getAllBrokenCars();
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         } return allBrokenCars;
     }
@@ -60,7 +59,7 @@ public class CarServiceImpl implements CarService {
         Car car;
         try{
             car = carDAO.findCarById(carId);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         } return car;
     }
@@ -69,7 +68,7 @@ public class CarServiceImpl implements CarService {
     public void addCar(Car car) throws ServiceException {
         try{
            carDAO.addCar(car);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
     }
@@ -78,7 +77,7 @@ public class CarServiceImpl implements CarService {
     public void updateCar(Car car) throws ServiceException {
         try{
             carDAO.updateCar(car);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
     }
@@ -87,7 +86,7 @@ public class CarServiceImpl implements CarService {
     public void deleteCar(Car car) throws ServiceException {
         try{
             carDAO.deleteCar(car);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
     }
@@ -96,7 +95,7 @@ public class CarServiceImpl implements CarService {
     public void addCarToRepair(Car car, Date startRepaired, Date endRepaired) throws ServiceException {
         try{
             carDAO.addCarToRepair(car, startRepaired, endRepaired);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
     }
@@ -105,7 +104,7 @@ public class CarServiceImpl implements CarService {
     public void addCarToBusy(Car car, Date startRent, Date endRent) throws ServiceException {
         try{
             carDAO.addCarToBusy(car, startRent, endRent);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
     }
@@ -114,7 +113,7 @@ public class CarServiceImpl implements CarService {
     public void deleteCarFromRepair(Car car) throws ServiceException {
         try{
             carDAO.deleteCarFromRepair(car);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
     }
@@ -123,7 +122,7 @@ public class CarServiceImpl implements CarService {
     public void deleteCarFromBusy(Car car) throws ServiceException {
         try{
             carDAO.deleteCarFromBusy(car);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
     }
@@ -133,7 +132,7 @@ public class CarServiceImpl implements CarService {
         int maxCarStatusId;
         try{
             maxCarStatusId = carDAO.getMaxCarStatusId();
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         } return maxCarStatusId;
     }

@@ -109,7 +109,7 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public void addUser(User user) throws DAOException, SQLException {
+    public void addUser(User user) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -130,7 +130,12 @@ public class UserDAOImpl implements UserDAO {
             connection.commit();
 
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -145,7 +150,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void addUserToBlackList(int userId, String reason) throws DAOException, SQLException {
+    public void addUserToBlackList(int userId, String reason) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -157,7 +162,12 @@ public class UserDAOImpl implements UserDAO {
 
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -312,7 +322,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUser(User user) throws DAOException, SQLException {
+    public void updateUser(User user) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -332,7 +342,12 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -347,7 +362,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void deleteUserById(int userId) throws DAOException, SQLException {
+    public void deleteUserById(int userId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -358,7 +373,12 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -373,7 +393,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void deleteUserFromBlackList(int userId) throws DAOException, SQLException {
+    public void deleteUserFromBlackList(int userId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -384,7 +404,12 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {
@@ -399,7 +424,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public int getUserIdByLogin(String login) throws DAOException, SQLException {
+    public int getUserIdByLogin(String login) throws DAOException {
         Integer userId = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -415,7 +440,12 @@ public class UserDAOImpl implements UserDAO {
                 connection.commit();
             }
         } catch (ConnectionPoolException | SQLException e){
-            connection.rollback();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+
+                throw new DAOException(e);
+            }
             throw new DAOException(e);
         }
         finally {

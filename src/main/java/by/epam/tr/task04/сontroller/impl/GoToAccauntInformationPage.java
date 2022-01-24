@@ -3,7 +3,9 @@ package by.epam.tr.task04.сontroller.impl;
 import by.epam.tr.task04.dao.DAOException;
 import by.epam.tr.task04.entity.User;
 import by.epam.tr.task04.service.ServiceFactory;
+import by.epam.tr.task04.service.UserService;
 import by.epam.tr.task04.service.exception.ServiceException;
+import by.epam.tr.task04.service.validator.UserValidator;
 import by.epam.tr.task04.сontroller.Command;
 
 import javax.servlet.RequestDispatcher;
@@ -21,8 +23,8 @@ import org.apache.logging.log4j.Logger;
 public class GoToAccauntInformationPage implements Command {
 
     private static final Logger log = LogManager.getLogger(GoToAccauntInformationPage.class);
-
     private final static String goToAccauntInformationPage = "WEB-INF/jsp/accauntInformationPage.jsp";
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,7 +32,7 @@ public class GoToAccauntInformationPage implements Command {
         HttpSession session = request.getSession();
         if (session.getAttribute("login") != null) {
             try {
-                User user = ServiceFactory.getInstance().getUserService().findUserByLogin((String) session.getAttribute("login"));
+                User user = userService.findUserByLogin((String)session.getAttribute("login"));
                 request.setAttribute("user", user);
                 RequestDispatcher dispatcher = request.getRequestDispatcher(goToAccauntInformationPage);
                 dispatcher.forward(request, response);

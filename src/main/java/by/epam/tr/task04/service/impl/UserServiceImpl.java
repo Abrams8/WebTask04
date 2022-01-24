@@ -7,10 +7,8 @@ import by.epam.tr.task04.entity.User;
 import by.epam.tr.task04.service.UserService;
 import by.epam.tr.task04.service.exception.ServiceException;
 import by.epam.tr.task04.service.validator.UserValidator;
-import by.epam.tr.task04.service.validator.notEmptyStringValidator;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -43,7 +41,7 @@ public class UserServiceImpl implements UserService {
     public void addUser(User user) throws ServiceException {
         try {
             userDAO.addUser(user);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
 
@@ -53,7 +51,7 @@ public class UserServiceImpl implements UserService {
     public void addUserToBlackList(int userId, String reason) throws ServiceException {
         try {
             userDAO.addUserToBlackList(userId, reason);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
 
@@ -108,7 +106,7 @@ public class UserServiceImpl implements UserService {
     public void updateUserBy(User user) throws ServiceException {
         try {
             userDAO.updateUser(user);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
     }
@@ -117,7 +115,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(int userId) throws ServiceException {
         try {
             userDAO.deleteUserById(userId);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
     }
@@ -126,7 +124,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserFromBlackList(int userId) throws ServiceException {
         try {
             userDAO.deleteUserFromBlackList(userId);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
     }
@@ -136,7 +134,7 @@ public class UserServiceImpl implements UserService {
         int userId;
         try {
             userId = userDAO.getUserIdByLogin(login);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServiceException(e);
         }
         return userId;
@@ -158,29 +156,25 @@ public class UserServiceImpl implements UserService {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
-    public boolean checkPassword(String password, String realHashedPassword){
-        return BCrypt.checkpw(password, realHashedPassword);
-    }
 
     @Override
-    public boolean logination(String login, String password) throws ServiceException {
+    public User logination(String login, String password) throws ServiceException {
         UserValidator userValidator = new UserValidator();
         if (!userValidator.loginationUserValidator(login, password)) {
-            return false;
+            return null;
         } else {
             try{
-                User user = new User();
-                user = userDAO.findUserByLogin(login);
-                if(checkPassword(password, user.getPassword())){
-                    return true;
+                User user = userDAO.findUserByLogin(login);
+                if(BCrypt.checkpw(password, user.getPassword())){
+                    return user;
                 }
             } catch (DAOException e) {
                throw new ServiceException (e);
             }
-        } return false;
+        } return null;
     }
     @Override
-    public int getUserRole(int userId) throws DAOException, ServiceException {
+    public int getUserRole(int userId) throws ServiceException {
         int userRole;
         try {
             userRole = userDAO.getUserRoleByUserId(userId);

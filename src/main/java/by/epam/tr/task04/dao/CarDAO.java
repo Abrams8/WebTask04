@@ -8,23 +8,23 @@ import java.util.List;
 
 public interface CarDAO {
 
-    List<Car> getAllCars() throws DAOException, SQLException;
-    List<Car> getAllFreeCars() throws DAOException, SQLException;
-    List<Car> getAllBusyCars() throws DAOException, SQLException;
-    List<Car> getAllBrokenCars() throws DAOException, SQLException;
+    List<Car> getAllCars() throws DAOException;
+    List<Car> getAllFreeCars() throws DAOException;
+    List<Car> getAllBusyCars() throws DAOException;
+    List<Car> getAllBrokenCars() throws DAOException;
 
-    Car findCarById(int carId) throws DAOException, SQLException;
+    Car findCarById(int carId) throws DAOException;
 
-    void addCar(Car car) throws DAOException, SQLException;
-    void updateCar(Car car) throws DAOException, SQLException;
-    void deleteCar(Car car) throws DAOException, SQLException;
+    void addCar(Car car) throws DAOException;
+    void updateCar(Car car) throws DAOException;
+    void deleteCar(Car car) throws DAOException;
 
-    void addCarToRepair(Car car, Date startRepaired, Date endRepaired) throws DAOException, SQLException;
-    void addCarToBusy(Car car, Date startRent, Date endRent) throws DAOException, SQLException;
-    void deleteCarFromRepair(Car car) throws DAOException, SQLException;
-    void deleteCarFromBusy(Car car) throws DAOException, SQLException;
+    void addCarToRepair(Car car, Date startRepaired, Date endRepaired) throws DAOException;
+    void addCarToBusy(Car car, Date startRent, Date endRent) throws DAOException;
+    void deleteCarFromRepair(Car car) throws DAOException;
+    void deleteCarFromBusy(Car car) throws DAOException;
 
-    int getMaxCarStatusId() throws DAOException, SQLException;
+    int getMaxCarStatusId() throws DAOException;
 
 
 }

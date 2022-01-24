@@ -11,8 +11,8 @@ public interface UserDAO {
     List<User> getAllUsers() throws DAOException;
     List<User> getAllUsersInBlackList() throws DAOException;
 
-    void addUser(User user) throws DAOException, SQLException;
-    void addUserToBlackList(int userId, String reason) throws DAOException, SQLException;
+    void addUser(User user) throws DAOException;
+    void addUserToBlackList(int userId, String reason) throws DAOException;
 
 
     User findUserById(int userId) throws DAOException;
@@ -20,12 +20,12 @@ public interface UserDAO {
     User findUserByPhoneNumber(String userPhoneNumber) throws DAOException;
     boolean findInBlacklistById(int id) throws DAOException;
 
-    void updateUser(User user) throws DAOException, SQLException;
+    void updateUser(User user) throws DAOException;
 
-    void deleteUserById(int userId) throws DAOException, SQLException;
-    void deleteUserFromBlackList(int userId) throws DAOException, SQLException;
+    void deleteUserById(int userId) throws DAOException;
+    void deleteUserFromBlackList(int userId) throws DAOException;
 
-    int getUserIdByLogin(String login) throws DAOException, SQLException;
+    int getUserIdByLogin(String login) throws DAOException;
     int getMaxUserId() throws DAOException;
     int getUserRoleByUserId(int userId) throws DAOException;
 

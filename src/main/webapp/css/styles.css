@@ -58,10 +58,38 @@ body {
     padding: 10px;
 }
 
+.header_line2 {
+    min-height: 60px;
+    background-color: rgba(255,255,255,0.9);
+    display: table-row;
+    justify-content: left;
+    padding: 10px;
+}
+
 .header_buttons{
     display: flex;
     justify-content: space-between;
     width: calc(100vw - 130px);
+}
+
+.user_buttons{
+    display: table;
+    justify-content: left;
+    width: calc(100vw - 130px);
+    color: white;
+    margin-left: 10px;
+}
+
+.user_buttons a {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 1000;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: white;
+
 }
 
 .header_buttons a {

@@ -34,22 +34,16 @@ public class Controller extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
             process(request, response);
-        } catch (ServiceException | DAOException e) {
-            log.error(e);
-        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+
             process(request, response);
-        } catch (ServiceException | DAOException e) {
-            log.error(e);
-        }
+
     }
 
-    protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServiceException, DAOException {
+    protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String commandName = request.getParameter("command");
         Command command = provider.getCommand(commandName);
         command.execute(request, response);

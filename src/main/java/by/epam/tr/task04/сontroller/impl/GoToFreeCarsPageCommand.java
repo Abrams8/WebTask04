@@ -20,22 +20,9 @@ public class GoToFreeCarsPageCommand implements Command {
     private final static String goToFreeCars = "/WEB-INF/jsp/freeCarsPage.jsp";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServiceException, DAOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<Car> freeCars = ServiceFactory.getInstance().getCarService().getAllFreeCars();
-        for (int i = 0; i<freeCars.size(); i++){
-            Car car = new Car();
-        }
 
-        HttpSession session = request.getSession();
-        String login = (String) session.getAttribute("login");
-        if(login!=null) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(goToFreeCars);
-            dispatcher.forward(request, response);
-        }else {
-            CommandProvider commandProvider  = new CommandProvider();
-            commandProvider.getCommand("GO_TO_LOGINATION_PAGE").execute(request, response);
-        }
     }
 
 }

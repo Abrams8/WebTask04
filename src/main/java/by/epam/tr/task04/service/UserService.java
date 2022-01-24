@@ -29,6 +29,6 @@ public interface UserService {
     int getMaxUserId() throws ServiceException;
     String encodePassword(String password);
 
-    boolean logination (String login, String password) throws DAOException, ServiceException;
-    int getUserRole(int userId) throws DAOException, ServiceException;
+    User logination (String login, String password) throws ServiceException;
+    int getUserRole(int userId) throws ServiceException;
 }
