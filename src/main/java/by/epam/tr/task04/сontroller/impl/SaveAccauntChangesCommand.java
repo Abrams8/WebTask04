@@ -7,6 +7,9 @@ import by.epam.tr.task04.service.UserService;
 import by.epam.tr.task04.service.exception.ServiceException;
 import by.epam.tr.task04.service.validator.UserValidator;
 import by.epam.tr.task04.сontroller.Command;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,14 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.mindrot.jbcrypt.BCrypt;
+public class SaveAccauntChangesCommand implements Command {
 
-
-public class RegistrationCommand implements Command {
-
-    private final Logger log = LogManager.getLogger(RegistrationCommand.class);
+    private final Logger log = LogManager.getLogger(SaveAccauntChangesCommand.class);
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
@@ -36,6 +34,7 @@ public class RegistrationCommand implements Command {
         String mail = request.getParameter("mail");
         String phoneNumber = request.getParameter("phoneNumber");
         String password = request.getParameter("password");
+        String userId = request.getParameter("userId");
 
         UserValidator userValidator = new UserValidator();
         if (userValidator.registrationUserValidator(login, password, name, surname, phoneNumber, mail, passportNumber, age)) {
@@ -50,25 +49,29 @@ public class RegistrationCommand implements Command {
             user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
             user.setRole(Role.Client);
             user.setMail(mail);
+            user.setId(Integer.parseInt(userId));
 
             try {
-                userService.addUser(user);
-                int userId = userService.getUserIdByLogin(login);
+                userService.updateUser(user);
                 HttpSession session = request.getSession();
-                session.setAttribute("userId", userId);
                 session.setAttribute("login", user.getLogin());
                 session.setAttribute("role", Role.getRoleById(user.getRole().getRoleId()).toString());
-                response.sendRedirect("MyController?command=GO_TO_MAIN_PAGE");
+
+                String successMessageChangeAccauntInfo = "Changes saved!!";
+                request.setAttribute("successMessageChangeAccauntInfo", successMessageChangeAccauntInfo);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE");
+                dispatcher.forward(request, response);
             } catch (ServiceException e){
                 log.error(e);
             }
         } else {
-            String errorMessage = "Registration failed, smth is not valid! Try again!";
-            log.error(errorMessage);
-            request.setAttribute("errorMessage", errorMessage);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("MyController?command=GO_TO_REGISTRATION_PAGE");
+            String errorMessageChangeAccauntInfo = "Changes were not saved, smth is not valid! Try again!";
+            log.error(errorMessageChangeAccauntInfo);
+            request.setAttribute("errorMessageChangeAccauntInfo", errorMessageChangeAccauntInfo);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE");
             dispatcher.forward(request, response);
         }
 
-        }
     }
+}

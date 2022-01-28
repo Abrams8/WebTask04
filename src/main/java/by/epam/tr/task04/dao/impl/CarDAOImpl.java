@@ -7,6 +7,7 @@ import by.epam.tr.task04.dao.DAOException;
 import by.epam.tr.task04.entity.Car;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
@@ -339,7 +340,7 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void addCarToRepair(Car car, Date startRepaired, Date endRepaired) throws DAOException {
+    public void addCarToRepair(Car car, LocalDate startRepaired, LocalDate endRepaired) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -347,8 +348,8 @@ public class CarDAOImpl implements CarDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(ADD_CAR_TO_REPAIR);
             preparedStatement.setBoolean(1, true);
-            preparedStatement.setDate(2, startRepaired);
-            preparedStatement.setDate(3, endRepaired);
+            preparedStatement.setDate(2, java.sql.Date.valueOf(startRepaired));
+            preparedStatement.setDate(3, java.sql.Date.valueOf(endRepaired));
             preparedStatement.setInt(4, car.getCarId());
             preparedStatement.executeUpdate();
             connection.commit();
@@ -374,7 +375,7 @@ public class CarDAOImpl implements CarDAO {
 
 
     @Override
-    public void addCarToBusy(Car car, Date startRent, Date endRent) throws DAOException {
+    public void addCarToBusy(int carId, LocalDate startRent, LocalDate endRent) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -382,9 +383,9 @@ public class CarDAOImpl implements CarDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(ADD_CAR_TO_BUSY);
             preparedStatement.setBoolean(1, true);
-            preparedStatement.setDate(2, startRent);
-            preparedStatement.setDate(3, endRent);
-            preparedStatement.setInt(4, car.getCarId());
+            preparedStatement.setDate(2, java.sql.Date.valueOf(startRent));
+            preparedStatement.setDate(3, java.sql.Date.valueOf(endRent));
+            preparedStatement.setInt(4, carId);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
@@ -439,14 +440,14 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void deleteCarFromBusy(Car car) throws DAOException {
+    public void deleteCarFromBusy(int carId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(DELETE_CAR_FROM_BUSY);
-            preparedStatement.setInt(1, car.getCarId());
+            preparedStatement.setInt(1, carId);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){

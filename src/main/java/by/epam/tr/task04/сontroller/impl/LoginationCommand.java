@@ -38,6 +38,7 @@ public class LoginationCommand implements Command {
                 User user = userService.logination(login, password);
                 if (user != null) {
                     HttpSession session = request.getSession();
+                    session.setAttribute("userId", user.getId());
                     session.setAttribute("login", user.getLogin());
                     session.setAttribute("role", Role.getRoleById(user.getRole().getRoleId()).toString());
                     response.sendRedirect("MyController?command=GO_TO_MAIN_PAGE");

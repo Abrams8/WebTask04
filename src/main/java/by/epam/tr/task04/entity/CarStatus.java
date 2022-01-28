@@ -2,24 +2,25 @@ package by.epam.tr.task04.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class CarStatus implements Serializable {
 
-    private Integer carStatusId;
+    private int carStatusId;
     private Boolean isBusy;
     private Boolean isRepaired;
-    private Integer carId;
-    private Date repairStartDate;
-    private Date repairEndDate;
+    private int carId;
+    private LocalDate repairStartDate;
+    private LocalDate repairEndDate;
 
     public CarStatus(){}
 
-    public Integer getCarStatusId() {
+    public int getCarStatusId() {
         return carStatusId;
     }
 
-    public void setCarStatusId(Integer carStatusId) {
+    public void setCarStatusId(int carStatusId) {
         this.carStatusId = carStatusId;
     }
 
@@ -39,27 +40,27 @@ public class CarStatus implements Serializable {
         isRepaired = repaired;
     }
 
-    public Integer getCarId() {
+    public int getCarId() {
         return carId;
     }
 
-    public void setCarId(Integer carId) {
+    public void setCarId(int carId) {
         this.carId = carId;
     }
 
-    public Date getRepairStartDate() {
+    public LocalDate getRepairStartDate() {
         return repairStartDate;
     }
 
-    public void setRepairStartDate(Date repairStartDate) {
+    public void setRepairStartDate(LocalDate repairStartDate) {
         this.repairStartDate = repairStartDate;
     }
 
-    public Date getRepairEndDate() {
+    public LocalDate getRepairEndDate() {
         return repairEndDate;
     }
 
-    public void setRepairEndDate(Date repairEndDate) {
+    public void setRepairEndDate(LocalDate repairEndDate) {
         this.repairEndDate = repairEndDate;
     }
 

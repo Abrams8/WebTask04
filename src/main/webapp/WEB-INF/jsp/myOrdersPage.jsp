@@ -1,15 +1,14 @@
-
-<%@ page contentType="text/html;charset=UTF-8" language="java"  errorPage="errorPage.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="errorPage.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Main page</title>
+    <title>My orders</title>
 
 
-    <fmt:setLocale value="${sessionScope.local}" />
+    <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="local" var="loc"/>
 
     <fmt:message bundle="${loc}" key="local.button.ru" var="ru_button"/>
@@ -40,6 +39,7 @@
     <fmt:message bundle="${loc}" key="local.button.admin_users" var="admin_users"/>
     <fmt:message bundle="${loc}" key="local.button.admin_cars" var="admin_cars"/>
     <fmt:message bundle="${loc}" key="local.button.admin_pay" var="admin_pay"/>
+    <fmt:message bundle="${loc}" key="local.button.pay" var="pay"/>
 
 
     <link rel="stylesheet" href="css/styles.css" type="text/css">
@@ -49,11 +49,11 @@
 <div class="header_top">
     <div class="welcome_message">
         <c:if test="${not empty login and role eq 'Client'}" var="isClient">
-            <h1><c:out value="Hello, ${sessionScope.login}" /></h1>
+            <h1><c:out value="Hello, ${sessionScope.login}"/></h1>
         </c:if>
 
-        <c:if test="${not empty login and role eq 'Admin'}" var = "isAdmin">
-            <h1><c:out value="Hello, ${sessionScope.login}" /></h1>
+        <c:if test="${not empty login and role eq 'Admin'}" var="isAdmin">
+            <h1><c:out value="Hello, ${sessionScope.login}"/></h1>
         </c:if>
     </div>
 
@@ -61,12 +61,12 @@
         <form action="MyController?command=CHANGE_LOCALE" method="get">
             <input type="hidden" name="command" value="CHANGE_LOCALE">
             <input type="hidden" name="local" value="ru"/>
-            <input class="language-button" type="submit"  value="${ru_button}"/>
+            <input class="language-button" type="submit" value="${ru_button}"/>
         </form>
 
         <form action="MyController?command=CHANGE_LOCALE" method="post">
             <input type="hidden" name="local" value="en"/>
-            <input class="language-button" type="submit"  value="${en_button}"/>
+            <input class="language-button" type="submit" value="${en_button}"/>
         </form>
     </div>
 </div>
@@ -81,33 +81,74 @@
 
     </div>
 
-    <c:if test="${empty role}" var = "isUnknownUser">
+    <c:if test="${empty role}" var="isUnknownUser">
 
         <div class="logination_registration">
-            <a href="MyController?command=GO_TO_LOGINATION_PAGE" >${login_in}</a>
+            <a href="MyController?command=GO_TO_LOGINATION_PAGE">${login_in}</a>
             <a href="MyController?command=GO_TO_REGISTRATION_PAGE">${registration}</a>
         </div>
 
     </c:if>
-    </div>
+</div>
 
-<div class="user_buttons" >
-    <c:if test="${not empty login and role eq 'Client'}" var="isLoginInUser">
-       <br><hr style="width: 300px">
-        <a href="MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE"><h3 style="color: white; margin: 10px">${accaunt_information} </h3></a><hr style="width: 300px">
-        <a href="MyController?command=GO_TO_MY_ORDERS_PAGE"><h3 style="color: white; margin: 10px">${my_orders} </h3></a><hr style="width: 300px">
-        <a href="MyController?command=LOG_OUT"><h3 style="color: white; margin: 10px">${logout} </h3></a><hr style="width: 300px">
+<div class="user_buttons">
+    <c:if test="${not empty login}" var="isLoginIn">
+        <br>
+        <hr style="width: 300px">
+        <a href="MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE"><h3
+                style="color: white; margin: 10px">${accaunt_information} </h3></a>
+        <hr style="width: 300px">
+        <a href="MyController?command=GO_TO_MY_ORDERS_PAGE"><h3 style="color: white; margin: 10px">${my_orders} </h3>
+        </a>
+        <hr style="width: 300px">
+        <a href="MyController?command=LOG_OUT"><h3 style="color: white; margin: 10px">${logout} </h3></a>
+        <hr style="width: 300px">
     </c:if>
 
-    <c:if test="${not empty login and role eq 'Admin'}" var="isLoginInAdmin">
-        <br><hr style="width: 300px">
-        <a href="MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE"><h3 style="color: white; margin: 10px">${accaunt_information} </h3></a><hr style="width: 300px">
-        <a href="MyController?command=GO_TO_ADMIN_ORDERS_PAGE"><h3 style="color: white; margin: 10px">${admin_orders} </h3></a><hr style="width: 300px">
-        <a href="MyController?command=GO_TO_ADMIN_USERS_PAGE"><h3 style="color: white; margin: 10px">${admin_users} </h3></a><hr style="width: 300px">
-        <a href="MyController?command=GO_TO_ADMIN_CARS_PAGE"><h3 style="color: white; margin: 10px">${admin_cars} </h3></a><hr style="width: 300px">
-        <a href="MyController?command=LOG_OUT"><h3 style="color: white; margin: 10px">${logout} </h3></a><hr style="width: 300px">
-    </c:if>
+</div>
 
+<div align="center">
+    <table cols="10" border="1%" width="80%" cellpadding="10" align="center">
+        <tr>
+            <th>orderId</th>
+            <th>carId</th>
+            <th>startDate</th>
+            <th>endDate</th>
+            <th>isConfirmed</th>
+            <th>isPayed</th>
+            <th>isClosed</th>
+            <th>comments</th>
+
+        </tr>
+        <c:forEach var="order" items="${requestScope.myOrders}">
+            <tr>
+                <td><c:out value="${order.orderId}"/></td>
+                <td><c:out value="${order.carId}"/></td>
+                <td><c:out value="${order.startDate}"/></td>
+                <td><c:out value="${order.endDate}"/></td>
+                <td><c:out value="${order.isConfirmed}"/></td>
+                <td><c:out value="${order.isPayed}"/></td>
+                <td><c:out value="${order.isClosed}"/></td>
+                <td><c:out value="${order.comments}"/></td>
+
+                <form action="MyController" method="get">
+                    <input type="hidden" name="command" value="PAY_ORDER">
+                    <input type="hidden" name="orderId" value="${order.orderId}"/>
+                    <td><input type="submit" value="${pay}"></td>
+                </form>
+
+                <form action="MyController" method="get">
+                    <input type="hidden" name="command" value="DELETE_ORDER">
+                    <input type="hidden" name="carId" value="${order.carId}"/>
+                    <input type="hidden" name="orderId" value="${order.orderId}"/>
+                    <td><input type="submit" value="${delete}"></td>
+                </form>
+
+
+                <hr>
+            </tr>
+        </c:forEach>
+    </table>
 </div>
 </body>
 </html>

@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Car implements Serializable {
 
-    private Integer carId;
+    private int carId;
     private String brand;
     private String model;
     private String transmissionType;
@@ -18,11 +18,11 @@ public class Car implements Serializable {
     public Car() {
     }
 
-    public Integer getCarId() {
+    public int getCarId() {
         return carId;
     }
 
-    public void setCarId(Integer carId) {
+    public void setCarId(int carId) {
         this.carId = carId;
     }
 

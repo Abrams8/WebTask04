@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Bill implements Serializable {
-    private Integer billId;
+    private int billId;
     private String status;
     private Double finalPrice;
-    private Integer orderId;
+    private int orderId;
 
     public Bill(){}
 
-    public Integer getBillId() {
+    public int getBillId() {
         return billId;
     }
 
-    public void setBillId(Integer billId) {
+    public void setBillId(int billId) {
         this.billId = billId;
     }
 
@@ -35,11 +35,11 @@ public class Bill implements Serializable {
         this.finalPrice = finalPrice;
     }
 
-    public Integer getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 

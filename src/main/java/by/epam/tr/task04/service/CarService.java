@@ -4,6 +4,7 @@ import by.epam.tr.task04.entity.Car;
 import by.epam.tr.task04.service.exception.ServiceException;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface CarService {
@@ -18,10 +19,10 @@ public interface CarService {
     void updateCar(Car car) throws ServiceException;
     void deleteCar(Car car) throws  ServiceException;
 
-    void addCarToRepair(Car car, Date startRepaired, Date endRepaired) throws ServiceException;
-    void addCarToBusy(Car car, Date startRent, Date endRent) throws ServiceException;
+    void addCarToRepair(Car car, LocalDate startRepaired, LocalDate endRepaired) throws ServiceException;
+    void addCarToBusy(int carId, LocalDate startRent, LocalDate endRent) throws ServiceException;
     void deleteCarFromRepair(Car car) throws ServiceException;
-    void deleteCarFromBusy(Car car) throws ServiceException;
+    void deleteCarFromBusy(int carId) throws ServiceException;
 
     int getMaxCarStatusId() throws ServiceException;
 

@@ -19,8 +19,8 @@ public class UserDAOImpl implements UserDAO {
     private final static String ADD_USER = "INSERT INTO Users(user_id, login, password, pasport_number, name, surname, age, phone_number, user_roles_id, mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final static String ADD_USER_TO_BLACK_LIST = "INSERT INTO Black_list(user_id, reason) VALUES(?, ?);";
     private final static String GET_USER_BY_ID = "SELECT * FROM Users NATURAL JOIN black_list NATURAL JOIN user_roles WHERE user_id=?;";
-    private final static String GET_ALL_USERS = "SELECT * FROM Users NATURAL JOIN User_roles NATURAL JOIN Black_list;";
-    private final static String UPDATE_USER_BY_ID = "UPDATE Users SET user_id=?, login=?, password=?, pasport_number=?, name=?, surname=?, age=?, phone_number=?, user_roles_id=? mail=? WHERE user_id=?;";
+    private final static String GET_ALL_USERS = "SELECT * FROM Users;";
+    private final static String UPDATE_USER = "UPDATE Users SET user_id=?, login=?, password=?, pasport_number=?, name=?, surname=?, age=?, phone_number=?, user_roles_id=?, mail=? WHERE user_id=?;";
     private final static String GET_MAX_USER_ID = "SELECT MAX(user_id) FROM Users;";
     private final static String GET_ALL_USERS_IN_BLACK_LIST = "SELECT * FROM Users INNER JOIN Black_list using(user_id);";
     private final static String FIND_USER_BY_LOGIN = "SELECT * FROM Users WHERE login=?;";
@@ -51,7 +51,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setPhoneNumber(resultSet.getString("phone_number"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
-                user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
+                user.setRole(Role.getRoleById(resultSet.getInt("user_roles_id")));
                 user.setMail(resultSet.getString("mail"));
                 allUsersList.add(user);
             }
@@ -89,7 +89,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setPhoneNumber(resultSet.getString("phone_number"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
-                user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
+                user.setRole(Role.getRoleById(resultSet.getInt("user_roles_id")));
                 user.setMail(resultSet.getString("mail"));
                 allUsersInBlackList.add(user);
             }
@@ -159,7 +159,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement = connection.prepareStatement(ADD_USER_TO_BLACK_LIST);
             preparedStatement.setInt(1, userId);
             preparedStatement.setString(2, reason);
-
+            preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){
             try {
@@ -328,7 +328,7 @@ public class UserDAOImpl implements UserDAO {
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(UPDATE_USER_BY_ID);
+            preparedStatement = connection.prepareStatement(UPDATE_USER);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setString(2, user.getLogin());
             preparedStatement.setString(3, user.getPassword());
@@ -339,6 +339,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setString(8, user.getPhoneNumber());
             preparedStatement.setInt(9, user.getRole().getRoleId());
             preparedStatement.setString(10, user.getMail());
+            preparedStatement.setInt(11, user.getId());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e){

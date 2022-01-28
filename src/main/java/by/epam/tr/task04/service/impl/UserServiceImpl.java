@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserBy(User user) throws ServiceException {
+    public void updateUser(User user) throws ServiceException {
         try {
             userDAO.updateUser(user);
         } catch (DAOException e) {

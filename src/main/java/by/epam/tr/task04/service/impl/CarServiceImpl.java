@@ -8,6 +8,7 @@ import by.epam.tr.task04.service.CarService;
 import by.epam.tr.task04.service.exception.ServiceException;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class CarServiceImpl implements CarService {
@@ -92,7 +93,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void addCarToRepair(Car car, Date startRepaired, Date endRepaired) throws ServiceException {
+    public void addCarToRepair(Car car, LocalDate startRepaired, LocalDate endRepaired) throws ServiceException {
         try{
             carDAO.addCarToRepair(car, startRepaired, endRepaired);
         } catch (DAOException e) {
@@ -101,9 +102,9 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void addCarToBusy(Car car, Date startRent, Date endRent) throws ServiceException {
+    public void addCarToBusy(int carId, LocalDate startRent, LocalDate endRent) throws ServiceException {
         try{
-            carDAO.addCarToBusy(car, startRent, endRent);
+            carDAO.addCarToBusy(carId, startRent, endRent);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -119,9 +120,9 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void deleteCarFromBusy(Car car) throws ServiceException {
+    public void deleteCarFromBusy(int carId) throws ServiceException {
         try{
-            carDAO.deleteCarFromBusy(car);
+            carDAO.deleteCarFromBusy(carId);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

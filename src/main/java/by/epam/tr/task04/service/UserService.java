@@ -20,7 +20,7 @@ public interface UserService {
     User findUserByPhoneNumber(String userPhoneNumber) throws ServiceException;
     boolean findInBlacklistById(int id) throws ServiceException;
 
-    void updateUserBy(User user) throws ServiceException;
+    void updateUser(User user) throws ServiceException;
 
     void deleteUserById(int userId) throws ServiceException;
     void deleteUserFromBlackList(int userId) throws ServiceException;

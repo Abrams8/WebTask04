@@ -4,16 +4,16 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class BlackList implements Serializable {
-    private Integer userId;
+    private int userId;
     private String reason;
 
     public BlackList (){}
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
