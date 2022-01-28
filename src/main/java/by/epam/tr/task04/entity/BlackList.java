@@ -7,7 +7,8 @@ public class BlackList implements Serializable {
     private int userId;
     private String reason;
 
-    public BlackList (){}
+    public BlackList() {
+    }
 
     public int getUserId() {
         return userId;

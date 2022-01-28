@@ -17,22 +17,22 @@ import java.io.IOException;
 
 public class DeleteUserFromBlackListCommand implements Command {
 
-        private static final Logger log = LogManager.getLogger(GoToFreeCarsPageCommand.class);
-        private final UserService userService = ServiceFactory.getInstance().getUserService();
-        private final static String goToAllUsersPage = "/WEB-INF/jsp/adminUsers.jsp";
+    private static final Logger log = LogManager.getLogger(DeleteUserFromBlackListCommand.class);
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
+    private final static String goToAllUsersPage = "/WEB-INF/jsp/adminUsers.jsp";
 
-        @Override
-        public void execute (HttpServletRequest request, HttpServletResponse response) throws
-        ServletException, IOException {
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
 
-            int userId = Integer.parseInt(request.getParameter("userId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
 
-            try {
-                userService.deleteUserFromBlackList(userId);
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher(goToAllUsersPage);
-                requestDispatcher.forward(request, response);
-            } catch (ServiceException e) {
-                log.error(e);
-            }
+        try {
+            userService.deleteUserFromBlackList(userId);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(goToAllUsersPage);
+            requestDispatcher.forward(request, response);
+        } catch (ServiceException e) {
+            log.error(e);
         }
     }
+}

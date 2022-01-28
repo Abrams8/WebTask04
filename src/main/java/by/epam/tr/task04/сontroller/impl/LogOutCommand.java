@@ -15,7 +15,7 @@ public class LogOutCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session  = request.getSession();
+        HttpSession session = request.getSession();
         session.removeAttribute("login");
         session.removeAttribute("role");
         RequestDispatcher dispatcher = request.getRequestDispatcher(goToMainPage);

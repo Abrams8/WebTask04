@@ -163,16 +163,22 @@ public class UserServiceImpl implements UserService {
         if (!userValidator.loginationUserValidator(login, password)) {
             return null;
         } else {
-            try{
+            try {
                 User user = userDAO.findUserByLogin(login);
-                if(BCrypt.checkpw(password, user.getPassword())){
-                    return user;
+                if (user.getLogin() == null) {
+                    return null;
+                } else {
+                    if (BCrypt.checkpw(password, user.getPassword())) {
+                        return user;
+                    }
                 }
             } catch (DAOException e) {
-               throw new ServiceException (e);
+                throw new ServiceException(e);
             }
-        } return null;
+        }
+        return null;
     }
+
     @Override
     public int getUserRole(int userId) throws ServiceException {
         int userRole;

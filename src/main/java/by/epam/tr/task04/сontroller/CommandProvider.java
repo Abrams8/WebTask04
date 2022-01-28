@@ -9,7 +9,7 @@ import java.util.Map;
 public final class CommandProvider {
     private Map<String, Command> commands = new HashMap<String, Command>();
 
-    public CommandProvider(){
+    public CommandProvider() {
         commands.put("logination", new LoginationCommand());
         commands.put("registration", new RegistrationCommand());
         commands.put("GO_TO_REGISTRATION_PAGE", new GoToRegestrationPageCommand());
@@ -37,10 +37,11 @@ public final class CommandProvider {
         commands.put("GET_ALL_CLOSED_ORDERS", new GetAllClosedOrdersCommand());
         commands.put("CONFIRM_ORDER", new ConfirmOrderCommand());
         commands.put("CLOSE_ORDER", new CloseOrderCommander());
+        commands.put("GO_TO_MY_ORDERS_HISTORY_PAGE", new GoToMyOrdersHistoryPageCommand());
 
     }
 
-    public final Command getCommand(String commandName){
+    public final Command getCommand(String commandName) {
         Command command = commands.get(commandName);
         return command;
     }

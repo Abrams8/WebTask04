@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="errorPage.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -84,11 +84,14 @@
     <c:if test="${not empty login and role eq 'Admin'}" var="isLoginInAdmin">
         <br>
         <hr style="width: 300px">
-        <a href="MyController?command=GET_ALL_CONFIRMED_ORDERS"><h3 style="color: white; margin: 10px">${get_all_confirmed_orders} </h3></a>
+        <a href="MyController?command=GET_ALL_CONFIRMED_ORDERS"><h3
+                style="color: white; margin: 10px">${get_all_confirmed_orders} </h3></a>
         <hr style="width: 300px">
-        <a href="MyController?command=GET_ALL_UNCONFIRMED_ORDERS"><h3 style="color: white; margin: 10px">${get_all_unconfirmed_orders}  </h3></a>
+        <a href="MyController?command=GET_ALL_UNCONFIRMED_ORDERS"><h3
+                style="color: white; margin: 10px">${get_all_unconfirmed_orders} </h3></a>
         <hr style="width: 300px">
-        <a href="MyController?command=GET_ALL_CLOSED_ORDERS"><h3 style="color: white; margin: 10px">${get_all_closed_orders}  </h3></a>
+        <a href="MyController?command=GET_ALL_CLOSED_ORDERS"><h3
+                style="color: white; margin: 10px">${get_all_closed_orders} </h3></a>
         <hr style="width: 300px">
         <a href="MyController?command=LOG_OUT"><h3 style="color: white; margin: 10px">${logout} </h3></a>
         <hr style="width: 300px">
@@ -98,9 +101,9 @@
 <div>
 
 </div>
-<c:if test="${not empty requestScope.allConfirmedOrders}" >
+<c:if test="${not empty requestScope.allConfirmedOrders}">
     <div align="center">
-        <table cols="10" border="1%" width="80%" cellpadding="5">
+        <table cols="10" border="1%" width="80%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
                 <th>Order id</th>
                 <th>userId</th>
@@ -109,22 +112,22 @@
                 <th>endDate</th>
                 <th>isConfirmed</th>
                 <th>isPayed</th>
-
                 <th>comments</th>
+                <th>price</th>
                 <th></th>
                 <th></th>
             </tr>
             <c:forEach var="order" items="${requestScope.allConfirmedOrders}">
                 <tr>
-                        <td><c:out value="${order.orderId}"/></td>
-                        <td><c:out value="${order.userId}"/></td>
-                        <td><c:out value="${order.carId}"/></td>
-                        <td><c:out value="${order.startDate}"/></td>
-                        <td><c:out value="${order.endDate}"/></td>
-                        <td><c:out value="${order.isConfirmed}"/></td>
-                        <td><c:out value="${order.isPayed}"/></td>
-
-                        <td><c:out value="${order.comments}"/></td>
+                    <td><c:out value="${order.orderId}"/></td>
+                    <td><c:out value="${order.userId}"/></td>
+                    <td><c:out value="${order.carId}"/></td>
+                    <td><c:out value="${order.startDate}"/></td>
+                    <td><c:out value="${order.endDate}"/></td>
+                    <td><c:out value="${order.isConfirmed}"/></td>
+                    <td><c:out value="${order.isPayed}"/></td>
+                    <td><c:out value="${order.comments}"/></td>
+                    <td><c:out value="${order.orderPrice}"/></td>
                     <form action="MyController" method="get">
                         <input type="hidden" name="command" value="CLOSE_ORDER">
                         <input type="hidden" name="orderId" value="${order.orderId}"/>
@@ -136,9 +139,9 @@
         </table>
     </div>
 </c:if>
-<c:if test="${not empty requestScope.allUnconfirmedOrders}" >
+<c:if test="${not empty requestScope.allUnconfirmedOrders}">
     <div align="center">
-        <table cols="10" border="1%" width="80%" cellpadding="5">
+        <table cols="10" border="1%" width="80%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
                 <th>Order id</th>
                 <th>userId</th>
@@ -147,8 +150,8 @@
                 <th>endDate</th>
                 <th>isConfirmed</th>
                 <th>isPayed</th>
-
                 <th>comments</th>
+                <th>price</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -161,8 +164,8 @@
                     <td><c:out value="${order.endDate}"/></td>
                     <td><c:out value="${order.isConfirmed}"/></td>
                     <td><c:out value="${order.isPayed}"/></td>
-
                     <td><c:out value="${order.comments}"/></td>
+                    <td><c:out value="${order.orderPrice}"/></td>
                     <form action="MyController" method="get">
                         <input type="hidden" name="command" value="CONFIRM_ORDER">
                         <input type="hidden" name="orderId" value="${order.orderId}"/>
@@ -180,9 +183,9 @@
     </div>
 </c:if>
 
-<c:if test="${not empty requestScope.allClosedOrders}" >
+<c:if test="${not empty requestScope.allClosedOrders}">
     <div align="center">
-        <table cols="11" border="1%" width="80%" cellpadding="5">
+        <table cols="11" border="1%" width="80%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
                 <th>Order id</th>
                 <th>userId</th>
@@ -193,6 +196,7 @@
                 <th>isPayed</th>
                 <th>isClosed</th>
                 <th>comments</th>
+                <th>price</th>
             </tr>
             <c:forEach var="order" items="${requestScope.allClosedOrders}">
                 <tr>
@@ -205,6 +209,7 @@
                     <td><c:out value="${order.isPayed}"/></td>
                     <td><c:out value="${order.isClosed}"/></td>
                     <td><c:out value="${order.comments}"/></td>
+                    <td><c:out value="${order.orderPrice}"/></td>
                     <hr>
                 </tr>
             </c:forEach>

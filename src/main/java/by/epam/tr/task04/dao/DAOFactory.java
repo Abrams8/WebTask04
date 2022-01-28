@@ -11,7 +11,8 @@ public final class DAOFactory {
     private final OrderDAO orderDAO = new OrderDAOImpl();
     private final CarDAO carDAO = new CarDAOImpl();
 
-    private DAOFactory(){}
+    private DAOFactory() {
+    }
 
     public UserDAO getUserDAO() {
         return userDAO;

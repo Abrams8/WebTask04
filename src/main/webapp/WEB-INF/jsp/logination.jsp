@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="errorPage.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -80,10 +79,10 @@
 
     </div>
 
-    <c:if test="${empty role}" var = "isUnknownUser">
+    <c:if test="${empty role}" var="isUnknownUser">
 
         <div class="logination_registration">
-            <a href="MyController?command=GO_TO_LOGINATION_PAGE" >${login_in}</a>
+            <a href="MyController?command=GO_TO_LOGINATION_PAGE">${login_in}</a>
             <a href="MyController?command=GO_TO_REGISTRATION_PAGE">${registration}</a>
         </div>
 

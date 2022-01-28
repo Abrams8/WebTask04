@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class CloseOrderCommander implements Command {
 
-    private static final Logger log = LogManager.getLogger(GoToFreeCarsPageCommand.class);
+    private static final Logger log = LogManager.getLogger(CloseOrderCommander.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override

@@ -8,6 +8,7 @@ import by.epam.tr.task04.entity.Order;
 import by.epam.tr.task04.service.OrderService;
 import by.epam.tr.task04.service.exception.ServiceException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getMyOrders(int userId) throws ServiceException {
 
         try {
-           return orderDAO.getMyOrders(userId);
+            return orderDAO.getMyOrders(userId);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -47,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(int orderId) throws ServiceException {
         try {
-             orderDAO.deleteOrder(orderId);
+            orderDAO.deleteOrder(orderId);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -97,4 +98,14 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(e);
         }
     }
+
+    @Override
+    public List<Order> getMyOrdersHistory(int userId) throws ServiceException {
+        try {
+            return orderDAO.getMyOrdersHistory(userId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
 }

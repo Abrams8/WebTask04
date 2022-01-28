@@ -62,7 +62,7 @@ public class SaveAccauntChangesCommand implements Command {
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher("MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE");
                 dispatcher.forward(request, response);
-            } catch (ServiceException e){
+            } catch (ServiceException e) {
                 log.error(e);
             }
         } else {

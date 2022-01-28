@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class AddUserToBlackListCommand implements Command {
 
-    private static final Logger log = LogManager.getLogger(GoToFreeCarsPageCommand.class);
+    private static final Logger log = LogManager.getLogger(AddUserToBlackListCommand.class);
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
 

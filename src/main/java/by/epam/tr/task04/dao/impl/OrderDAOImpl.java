@@ -18,7 +18,7 @@ public class OrderDAOImpl implements OrderDAO {
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private final static String GET_MAX_ORDER_ID = "SELECT MAX(order_id) FROM Orders;";
-    private final static String ADD_ORDER = "INSERT INTO Orders(order_id, start_date, end_date, user_id, car_id, is_confirmed, is_payed, is_closed) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    private final static String ADD_ORDER = "INSERT INTO Orders(order_id, start_date, end_date, user_id, car_id, is_confirmed, is_payed, is_closed, order_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final static String CLOSE_ORDER = "UPDATE Orders SET is_closed=true WHERE order_id=?;";
     private final static String UPDATE_ORDER = "UPDATE Order_status SET is_confirmed=?, rejection_reason=? WHERE order_id=?;";
 
@@ -29,10 +29,10 @@ public class OrderDAOImpl implements OrderDAO {
     private final static String GET_ALL_COMFIRMED_ORDERS = "SELECT * FROM Orders WHERE is_confirmed=true AND is_closed=false;";
     private final static String GET_ALL_UNCOMFIRMED_ORDERS = "SELECT * FROM Orders WHERE is_confirmed=false AND is_closed=false;";
     private final static String GET_ALL_CLOSED_ORDERS = "SELECT * FROM Orders WHERE is_closed=true;";
-    private final static String GET_MY_ORDERS = "SELECT * FROM Orders WHERE user_id=?;";
+    private final static String GET_MY_ORDERS = "SELECT * FROM Orders WHERE is_closed=false AND user_id=?;";
+    private final static String GET_MY_ORDERS_HISTORY = "SELECT * FROM Orders WHERE is_closed=true AND user_id=?;";
 
     private final static String ADD_BILL = "INSERT INTO Bills (bill_id, final_price, order_id, order_payed) VALUES (?, ?, ?, ?);";
-
 
 
     @Override
@@ -51,9 +51,10 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatementAddCar.setBoolean(6, order.getIsConfirmed());
             preparedStatementAddCar.setBoolean(7, order.getIsPayed());
             preparedStatementAddCar.setBoolean(8, order.getIsClosed());
+            preparedStatementAddCar.setDouble(9, order.getOrderPrice());
             preparedStatementAddCar.executeUpdate();
             connection.commit();
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -61,12 +62,10 @@ public class OrderDAOImpl implements OrderDAO {
                 throw new DAOException(e);
             }
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatementAddCar);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatementAddCar);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -85,7 +84,7 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatementDeleteCar.executeUpdate();
 
             connection.commit();
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -93,20 +92,15 @@ public class OrderDAOImpl implements OrderDAO {
                 throw new DAOException(e);
             }
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatementDeleteCar);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatementDeleteCar);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
 
     }
-
-
-
 
 
     @Override
@@ -121,7 +115,7 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.setInt(2, order.getOrderId());
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -129,17 +123,16 @@ public class OrderDAOImpl implements OrderDAO {
                 throw new DAOException(e);
             }
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
 
     }
+
     @Override
     public void addComfirmedOrder(int orderId) throws DAOException {
         Connection connection = null;
@@ -151,7 +144,7 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.setInt(1, orderId);
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -159,12 +152,10 @@ public class OrderDAOImpl implements OrderDAO {
                 throw new DAOException(e);
             }
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -182,7 +173,7 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.setInt(1, orderId);
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -190,12 +181,10 @@ public class OrderDAOImpl implements OrderDAO {
                 throw new DAOException(e);
             }
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -223,16 +212,15 @@ public class OrderDAOImpl implements OrderDAO {
                 order.setConfirmed(resultSet.getBoolean("is_confirmed"));
                 order.setClosed(resultSet.getBoolean("is_closed"));
                 order.setPayed(resultSet.getBoolean("is_payed"));
+                order.setOrderPrice(resultSet.getDouble("order_price"));
                 allConfirmedOrders.add(order);
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,statement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, statement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -262,14 +250,12 @@ public class OrderDAOImpl implements OrderDAO {
             while (resultSet.next()) {
                 maxId = resultSet.getInt(1);
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,statement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, statement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -297,16 +283,15 @@ public class OrderDAOImpl implements OrderDAO {
                 order.setConfirmed(resultSet.getBoolean("is_confirmed"));
                 order.setClosed(resultSet.getBoolean("is_closed"));
                 order.setPayed(resultSet.getBoolean("is_payed"));
+                order.setOrderPrice(resultSet.getDouble("order_price"));
                 myOrders.add(order);
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -334,16 +319,15 @@ public class OrderDAOImpl implements OrderDAO {
                 order.setConfirmed(resultSet.getBoolean("is_confirmed"));
                 order.setClosed(resultSet.getBoolean("is_closed"));
                 order.setPayed(resultSet.getBoolean("is_payed"));
+                order.setOrderPrice(resultSet.getDouble("order_price"));
                 allUnconfirmedOrders.add(order);
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,statement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, statement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -371,20 +355,55 @@ public class OrderDAOImpl implements OrderDAO {
                 order.setConfirmed(resultSet.getBoolean("is_confirmed"));
                 order.setClosed(resultSet.getBoolean("is_closed"));
                 order.setPayed(resultSet.getBoolean("is_payed"));
+                order.setOrderPrice(resultSet.getDouble("order_price"));
                 allClosedOrders.add(order);
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,statement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, statement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
         return allClosedOrders;
+    }
+
+    public List<Order> getMyOrdersHistory(int userId) throws DAOException {
+        List<Order> myOrdersHistory = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(GET_MY_ORDERS_HISTORY);
+            preparedStatement.setInt(1, userId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setOrderId(resultSet.getInt("order_id"));
+                order.setStartDate(LocalDate.parse(resultSet.getString("start_date")));
+                order.setEndDate(LocalDate.parse(resultSet.getString("end_date")));
+                order.setUserId(resultSet.getInt("user_id"));
+                order.setCarId(resultSet.getInt("car_id"));
+                order.setComments(resultSet.getString("comments"));
+                order.setConfirmed(resultSet.getBoolean("is_confirmed"));
+                order.setClosed(resultSet.getBoolean("is_closed"));
+                order.setPayed(resultSet.getBoolean("is_payed"));
+                order.setOrderPrice(resultSet.getDouble("order_price"));
+                myOrdersHistory.add(order);
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement, resultSet);
+            } catch (ConnectionPoolException e) {
+                throw new DAOException(e);
+            }
+        }
+        return myOrdersHistory;
     }
 
 }

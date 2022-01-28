@@ -33,7 +33,8 @@
     <fmt:message bundle="${loc}" key="local.button.registration" var="button_registration"/>
     <fmt:message bundle="${loc}" key="local.button.ru" var="ru_button"/>
     <fmt:message bundle="${loc}" key="local.button.en" var="en_button"/>
-    <fmt:message bundle="${loc}" key="local.message.registration.errorMessageRegistration" var="errorMessageRegistration" />
+    <fmt:message bundle="${loc}" key="local.message.registration.errorMessageRegistration"
+                 var="errorMessageRegistration"/>
 
     <fmt:message bundle="${loc}" key="local.button.get_all_confirmed_orders" var="get_all_confirmed_orders"/>
     <fmt:message bundle="${loc}" key="local.button.get_all_unconfirmed_orders" var="get_all_unconfirmed_orders"/>
@@ -90,10 +91,10 @@
 
     </div>
 
-    <c:if test="${empty role}" var = "isUnknownUser">
+    <c:if test="${empty role}" var="isUnknownUser">
 
         <div class="logination_registration">
-            <a href="MyController?command=GO_TO_LOGINATION_PAGE" >${login_in}</a>
+            <a href="MyController?command=GO_TO_LOGINATION_PAGE">${login_in}</a>
             <a href="MyController?command=GO_TO_REGISTRATION_PAGE">${registration}</a>
         </div>
 

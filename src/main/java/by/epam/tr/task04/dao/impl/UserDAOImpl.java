@@ -55,14 +55,12 @@ public class UserDAOImpl implements UserDAO {
                 user.setMail(resultSet.getString("mail"));
                 allUsersList.add(user);
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,statement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, statement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -93,14 +91,12 @@ public class UserDAOImpl implements UserDAO {
                 user.setMail(resultSet.getString("mail"));
                 allUsersInBlackList.add(user);
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,statement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, statement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -129,7 +125,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.executeUpdate();
             connection.commit();
 
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -137,12 +133,10 @@ public class UserDAOImpl implements UserDAO {
                 throw new DAOException(e);
             }
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -161,7 +155,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setString(2, reason);
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -169,12 +163,10 @@ public class UserDAOImpl implements UserDAO {
                 throw new DAOException(e);
             }
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -204,14 +196,12 @@ public class UserDAOImpl implements UserDAO {
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
                 user.setMail(resultSet.getString("mail"));
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -241,14 +231,12 @@ public class UserDAOImpl implements UserDAO {
                 user.setRole(Role.getRoleById(resultSet.getInt("user_roles_id")));
                 user.setMail(resultSet.getString("mail"));
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -278,14 +266,12 @@ public class UserDAOImpl implements UserDAO {
                 user.setRole(Role.getRoleById(resultSet.getInt("user_role_id")));
                 user.setMail(resultSet.getString("mail"));
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -307,14 +293,12 @@ public class UserDAOImpl implements UserDAO {
             if (resultSet.next()) {
                 userInBlackList = true;
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -342,7 +326,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setInt(11, user.getId());
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -350,12 +334,10 @@ public class UserDAOImpl implements UserDAO {
                 throw new DAOException(e);
             }
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -373,7 +355,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setInt(1, userId);
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -381,12 +363,10 @@ public class UserDAOImpl implements UserDAO {
                 throw new DAOException(e);
             }
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -404,7 +384,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setInt(1, userId);
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -412,12 +392,10 @@ public class UserDAOImpl implements UserDAO {
                 throw new DAOException(e);
             }
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -440,7 +418,7 @@ public class UserDAOImpl implements UserDAO {
                 userId = resultSet.getInt("user_id");
                 connection.commit();
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
@@ -448,12 +426,10 @@ public class UserDAOImpl implements UserDAO {
                 throw new DAOException(e);
             }
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -473,14 +449,12 @@ public class UserDAOImpl implements UserDAO {
             while (resultSet.next()) {
                 maxId = resultSet.getInt(1);
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,statement,resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, statement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }
@@ -501,14 +475,12 @@ public class UserDAOImpl implements UserDAO {
             while (resultSet.next()) {
                 userRole = resultSet.getInt("user_role_id");
             }
-        } catch (ConnectionPoolException | SQLException e){
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException(e);
-        }
-        finally {
-            try{
-                connectionPool.closeConnection(connection,preparedStatement, resultSet);
-            }
-            catch (ConnectionPoolException e){
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, preparedStatement, resultSet);
+            } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }
         }

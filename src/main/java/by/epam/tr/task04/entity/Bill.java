@@ -9,7 +9,8 @@ public class Bill implements Serializable {
     private Double finalPrice;
     private int orderId;
 
-    public Bill(){}
+    public Bill() {
+    }
 
     public int getBillId() {
         return billId;

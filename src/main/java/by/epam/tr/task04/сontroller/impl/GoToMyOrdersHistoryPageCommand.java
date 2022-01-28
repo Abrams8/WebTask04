@@ -1,7 +1,6 @@
 package by.epam.tr.task04.сontroller.impl;
 
 import by.epam.tr.task04.entity.Order;
-import by.epam.tr.task04.service.CarService;
 import by.epam.tr.task04.service.OrderService;
 import by.epam.tr.task04.service.ServiceFactory;
 import by.epam.tr.task04.service.exception.ServiceException;
@@ -17,26 +16,26 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class DeleteOrderCommand implements Command {
+public class GoToMyOrdersHistoryPageCommand implements Command {
 
-    private static final Logger log = LogManager.getLogger(DeleteOrderCommand.class);
+    private static final Logger log = LogManager.getLogger(GoToMyOrdersHistoryPageCommand.class);
+    private final static String myOrdersPage = "/WEB-INF/jsp/myOrdersPage.jsp";
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
-    private final CarService carService = ServiceFactory.getInstance().getCarService();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int orderId = Integer.parseInt(request.getParameter("orderId"));
-        int carId = Integer.parseInt(request.getParameter("carId"));
-
         try {
-            orderService.deleteOrder(orderId);
-            carService.deleteCarFromBusy(carId);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("MyController?command=GO_TO_MY_ORDERS_PAGE");
+            HttpSession session = request.getSession();
+            int userId = (int) session.getAttribute("userId");
+
+            List<Order> myHistoryOrders = orderService.getMyOrdersHistory(userId);
+
+            request.setAttribute("myHistoryOrders", myHistoryOrders);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(myOrdersPage);
             requestDispatcher.forward(request, response);
         } catch (ServiceException e) {
             log.error(e);
         }
     }
 }
-

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class GetAllUsersCommand implements Command {
 
-    private static final Logger log = LogManager.getLogger(GoToFreeCarsPageCommand.class);
+    private static final Logger log = LogManager.getLogger(GetAllUsersCommand.class);
     private final UserService userService = ServiceFactory.getInstance().getUserService();
     private final static String goToAllUsersPage = "/WEB-INF/jsp/adminUsers.jsp";
 

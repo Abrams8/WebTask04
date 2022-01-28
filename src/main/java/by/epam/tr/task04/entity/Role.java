@@ -18,9 +18,10 @@ public enum Role {
 
     public static Role getRoleById(int id) {
         for (int i = 0; i < Role.values().length; i++) {
-                if (Role.values()[i].id == id) {
-                    return Role.values()[i];
-                }
-            } throw new NoSuchElementException();
+            if (Role.values()[i].id == id) {
+                return Role.values()[i];
             }
         }
+        throw new NoSuchElementException();
+    }
+}

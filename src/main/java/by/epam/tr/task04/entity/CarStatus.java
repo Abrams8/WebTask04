@@ -14,7 +14,8 @@ public class CarStatus implements Serializable {
     private LocalDate repairStartDate;
     private LocalDate repairEndDate;
 
-    public CarStatus(){}
+    public CarStatus() {
+    }
 
     public int getCarStatusId() {
         return carStatusId;

@@ -8,7 +8,6 @@
 }
 
 
-
 body {
     background: url("../images/background.jpg");
     background-size: 100% auto;
@@ -52,7 +51,7 @@ a {
 
 .language_change .language-button {
     border: none;
-    background-color: rgba(255,255,255,0.9);
+    background-color: rgba(255, 255, 255, 0.9);
     width: 22px;
     height: 20px;
     font-family: 'Roboto', sans-serif;
@@ -60,7 +59,7 @@ a {
 }
 
 
-.main{
+.main {
     width: 33vw;
     margin: 50px auto 0;
     display: flex;
@@ -68,21 +67,22 @@ a {
     align-items: center;
 }
 
-.main a{
+.main a {
     margin-top: 10px;
     font-weight: 500;
 }
 
-.main a:hover{
+.main a:hover {
     color: yellow;
 }
 
-.login_forms{
+.login_forms {
     display: flex;
     justify-content: center;
     font-family: 'Roboto', sans-serif;
 
 }
+
 .login_forms > div {
     padding-right: 10px;
 }
@@ -95,12 +95,12 @@ a {
     letter-spacing: 0.8px;
 }
 
-.inputs input{
+.inputs input {
     display: block;
 
 }
 
-.login_forms > input{
+.login_forms > input {
 
     width: 100px;
 
@@ -109,7 +109,7 @@ a {
 
 }
 
-.login_forms > input:active{
+.login_forms > input:active {
     box-shadow: 0 0 3px black inset;
     border-radius: 3px;
 

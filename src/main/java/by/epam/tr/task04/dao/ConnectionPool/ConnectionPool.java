@@ -32,8 +32,8 @@ public class ConnectionPool {
         }
     }
 
-    public static ConnectionPool getInstance(){
-        if(instance == null){
+    public static ConnectionPool getInstance() {
+        if (instance == null) {
             instance = new ConnectionPool();
         }
         return instance;
@@ -92,26 +92,24 @@ public class ConnectionPool {
 
     public void closeConnection(Connection con, Statement st, ResultSet rs) throws ConnectionPoolException {
         try {
-            if(rs!=null){
+            if (rs != null) {
                 rs.close();
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new ConnectionPoolException(e);
-        }
-        finally {
+        } finally {
             try {
-                if(st!=null){
+                if (st != null) {
                     st.close();
                 }
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 throw new ConnectionPoolException(e);
-            }
-            finally {
+            } finally {
                 try {
-                    if(con!=null){
+                    if (con != null) {
                         con.close();
                     }
-                } catch (SQLException e){
+                } catch (SQLException e) {
                     throw new ConnectionPoolException(e);
                 }
             }
@@ -120,18 +118,17 @@ public class ConnectionPool {
 
     public void closeConnection(Connection con, Statement st) throws ConnectionPoolException {
         try {
-            if(st!=null){
+            if (st != null) {
                 st.close();
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new ConnectionPoolException(e);
-        }
-        finally {
+        } finally {
             try {
-                if(con!=null){
+                if (con != null) {
                     con.close();
                 }
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 throw new ConnectionPoolException(e);
             }
         }

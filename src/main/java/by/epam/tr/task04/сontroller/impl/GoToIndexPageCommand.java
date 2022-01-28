@@ -12,6 +12,7 @@ import java.io.IOException;
 public class GoToIndexPageCommand implements Command {
 
     private final static String goToMainPage = "/WEB-INF/jsp/MainPage.jsp";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

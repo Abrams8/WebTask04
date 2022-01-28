@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="errorPage.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -96,81 +96,81 @@
 <div>
 
 </div>
-<c:if test="${not empty requestScope.allUsers}" >
-<div align="center">
-    <table cols="11" border="1%" width="80%" cellpadding="5">
-        <tr>
-            <th>User id</th>
-            <th>login</th>
-            <th>pasportNumber</th>
-            <th>name</th>
-            <th>surname</th>
-            <th>age</th>
-            <th>phoneNumber</th>
-            <th>role</th>
-            <th>mail</th>
-            <th>reason(block)</th>
-            <th></th>
-        </tr>
-        <c:forEach var="user" items="${requestScope.allUsers}">
+<c:if test="${not empty requestScope.allUsers}">
+    <div align="center">
+        <table cols="11" border="1%" width="80%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
-                <form action="MyController" method="get">
+                <th>User id</th>
+                <th>login</th>
+                <th>pasportNumber</th>
+                <th>name</th>
+                <th>surname</th>
+                <th>age</th>
+                <th>phoneNumber</th>
+                <th>role</th>
+                <th>mail</th>
+                <th>reason(block)</th>
+                <th></th>
+            </tr>
+            <c:forEach var="user" items="${requestScope.allUsers}">
+                <tr>
+                    <form action="MyController" method="get">
+                        <td><c:out value="${user.id}"/></td>
+                        <td><c:out value="${user.login}"/></td>
+                        <td><c:out value="${user.pasportNumber}"/></td>
+                        <td><c:out value="${user.name}"/></td>
+                        <td><c:out value="${user.surname}"/></td>
+                        <td><c:out value="${user.age}"/></td>
+                        <td><c:out value="${user.phoneNumber}"/></td>
+                        <td><c:out value="${user.role}"/></td>
+                        <td><c:out value="${user.mail}"/></td>
+                        <c:if test="${user.role eq 'Client'}">
+                            <input type="hidden" name="command" value="ADD_USER_TO_BLACK_LIST">
+                            <td><input align="center" type="text" name="reason" value=""></td>
+                            <input type="hidden" name="userId" value="${user.id}"/>
+                            <td><input type="submit" value="${to_black_list}"></td>
+
+                        </c:if>
+                    </form>
+                    <hr>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+</c:if>
+<c:if test="${not empty requestScope.blackList}">
+    <div align="center">
+        <table cols="11" border="1%" width="80%" cellpadding="5" bgcolor="#e6e6fa">
+            <tr>
+                <th>User id</th>
+                <th>login</th>
+                <th>pasportNumber</th>
+                <th>name</th>
+                <th>surname</th>
+                <th>phoneNumber</th>
+                <th>mail</th>
+                <th></th>
+            </tr>
+            <c:forEach var="user" items="${requestScope.blackList}">
+                <tr>
+
                     <td><c:out value="${user.id}"/></td>
                     <td><c:out value="${user.login}"/></td>
                     <td><c:out value="${user.pasportNumber}"/></td>
                     <td><c:out value="${user.name}"/></td>
                     <td><c:out value="${user.surname}"/></td>
-                    <td><c:out value="${user.age}"/></td>
                     <td><c:out value="${user.phoneNumber}"/></td>
-                    <td><c:out value="${user.role}"/></td>
                     <td><c:out value="${user.mail}"/></td>
-                    <c:if test="${user.role eq 'Client'}">
-                        <input type="hidden" name="command" value="ADD_USER_TO_BLACK_LIST">
-                        <td><input align="center" type="text" name="reason" value=""></td>
+                    <form action="MyController" method="get">
+                        <input type="hidden" name="command" value="DELETE_USER_FROM_BLACK_LIST">
                         <input type="hidden" name="userId" value="${user.id}"/>
-                        <td><input type="submit" value="${to_black_list}"></td>
-
-                    </c:if>
-                </form>
-                <hr>
-            </tr>
-        </c:forEach>
-    </table>
-</div>
-</c:if>
-<c:if test="${not empty requestScope.blackList}" >
-<div align="center">
-    <table cols="11" border="1%" width="80%" cellpadding="5">
-        <tr>
-            <th>User id</th>
-            <th>login</th>
-            <th>pasportNumber</th>
-            <th>name</th>
-            <th>surname</th>
-            <th>phoneNumber</th>
-            <th>mail</th>
-            <th></th>
-        </tr>
-        <c:forEach var="user" items="${requestScope.blackList}">
-            <tr>
-
-                <td><c:out value="${user.id}"/></td>
-                <td><c:out value="${user.login}"/></td>
-                <td><c:out value="${user.pasportNumber}"/></td>
-                <td><c:out value="${user.name}"/></td>
-                <td><c:out value="${user.surname}"/></td>
-                <td><c:out value="${user.phoneNumber}"/></td>
-                <td><c:out value="${user.mail}"/></td>
-                <form action="MyController" method="get">
-                    <input type="hidden" name="command" value="DELETE_USER_FROM_BLACK_LIST">
-                    <input type="hidden" name="userId" value="${user.id}"/>
-                    <td><input type="submit" value="${delete}"></td>
-                </form>
-                <hr>
-            </tr>
-        </c:forEach>
-    </table>
-</div>
+                        <td><input type="submit" value="${delete}"></td>
+                    </form>
+                    <hr>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
 </c:if>
 </body>
 </html>

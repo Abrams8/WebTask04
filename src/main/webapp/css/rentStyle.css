@@ -8,7 +8,6 @@
 }
 
 
-
 body {
     background-color: cadetblue;
 
@@ -34,14 +33,14 @@ a {
 
 .language_change .language-button {
     border: none;
-    background-color: rgba(255,255,255,0.9);
+    background-color: rgba(255, 255, 255, 0.9);
     width: 22px;
     height: 20px;
     font-family: 'Roboto', sans-serif;
     cursor: pointer;
 }
 
-.main{
+.main {
     height: 100px;
     justify-content: space-between;
     width: 65vw;
@@ -64,7 +63,7 @@ a {
     margin-left: 45px;
 }
 
-.dates{
+.dates {
     font-family: 'Roboto', sans-serif;
     color: white;
     display: flex;
@@ -72,7 +71,7 @@ a {
     font-size: 18px;
 }
 
-.places_lockers{
+.places_lockers {
     font-family: 'Roboto', sans-serif;
     color: white;
     display: flex;
@@ -82,7 +81,7 @@ a {
 
 }
 
-.main > input{
+.main > input {
 
     width: 100px;
     height: 30px;
@@ -93,17 +92,17 @@ a {
 
 }
 
-.main > input:active{
+.main > input:active {
     box-shadow: 0 0 3px black inset;
     border-radius: 3px;
 
 }
 
-[name = "endDate"], [name = "startDate"]{
+[name = "endDate"], [name = "startDate"] {
     font-size: 15px;
 }
 
-[name = "numberLokers"], [name = "numberPlaces"]{
+[name = "numberLokers"], [name = "numberPlaces"] {
     font-size: 15px;
 
 }

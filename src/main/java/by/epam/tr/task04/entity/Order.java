@@ -12,12 +12,21 @@ public class Order implements Serializable {
     private LocalDate endDate;
     private int userId;
     private int carId;
+    private Double orderPrice;
     private String comments;
     private boolean isConfirmed;
     private boolean isPayed;
     private boolean isClosed;
 
     public Order() {
+    }
+
+    public Double getOrderPrice() {
+        return orderPrice;
+    }
+
+    public void setOrderPrice(Double orderPrice) {
+        this.orderPrice = orderPrice;
     }
 
     public int getOrderId() {
@@ -97,12 +106,12 @@ public class Order implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return isConfirmed == order.isConfirmed && isPayed == order.isPayed && isClosed == order.isClosed && Objects.equals(orderId, order.orderId) && Objects.equals(startDate, order.startDate) && Objects.equals(endDate, order.endDate) && Objects.equals(userId, order.userId) && Objects.equals(carId, order.carId) && Objects.equals(comments, order.comments);
+        return orderId == order.orderId && userId == order.userId && carId == order.carId && isConfirmed == order.isConfirmed && isPayed == order.isPayed && isClosed == order.isClosed && Objects.equals(startDate, order.startDate) && Objects.equals(endDate, order.endDate) && Objects.equals(orderPrice, order.orderPrice) && Objects.equals(comments, order.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, startDate, endDate, userId, carId, comments, isConfirmed, isPayed, isClosed);
+        return Objects.hash(orderId, startDate, endDate, userId, carId, orderPrice, comments, isConfirmed, isPayed, isClosed);
     }
 
     @Override
@@ -113,6 +122,7 @@ public class Order implements Serializable {
                 ", endDate=" + endDate +
                 ", userId=" + userId +
                 ", carId=" + carId +
+                ", orderPrice=" + orderPrice +
                 ", comments='" + comments + '\'' +
                 ", isConfirmed=" + isConfirmed +
                 ", isPayed=" + isPayed +

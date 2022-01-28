@@ -17,7 +17,7 @@ import java.util.List;
 
 public class GetAllUnconfirmedOrdersCommand implements Command {
 
-    private static final Logger log = LogManager.getLogger(GoToFreeCarsPageCommand.class);
+    private static final Logger log = LogManager.getLogger(GetAllUnconfirmedOrdersCommand.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
     private final static String goToAdminOrdersPage = "/WEB-INF/jsp/adminOrders.jsp";
 

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class GetAllConfirmedOrdersCommand implements Command {
 
-    private static final Logger log = LogManager.getLogger(GoToFreeCarsPageCommand.class);
+    private static final Logger log = LogManager.getLogger(GetAllConfirmedOrdersCommand.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
     private final static String goToAdminOrdersPage = "/WEB-INF/jsp/adminOrders.jsp";
 

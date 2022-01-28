@@ -32,7 +32,7 @@ public class GoToAccauntInformationPage implements Command {
         HttpSession session = request.getSession();
         if (session.getAttribute("login") != null) {
             try {
-                User user = userService.findUserByLogin((String)session.getAttribute("login"));
+                User user = userService.findUserByLogin((String) session.getAttribute("login"));
                 request.setAttribute("user", user);
                 RequestDispatcher dispatcher = request.getRequestDispatcher(goToAccauntInformationPage);
                 dispatcher.forward(request, response);

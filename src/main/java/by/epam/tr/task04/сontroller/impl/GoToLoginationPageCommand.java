@@ -16,7 +16,5 @@ public class GoToLoginationPageCommand implements Command {
         requestDispatcher.forward(request, response);
 
 
-
-
     }
 }

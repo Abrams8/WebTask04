@@ -21,7 +21,7 @@ import java.util.List;
 
 public class GoToMyOrdersPageCommand implements Command {
 
-    private static final Logger log = LogManager.getLogger(GoToFreeCarsPageCommand.class);
+    private static final Logger log = LogManager.getLogger(GoToMyOrdersPageCommand.class);
     private final static String myOrdersPage = "/WEB-INF/jsp/myOrdersPage.jsp";
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
@@ -30,7 +30,7 @@ public class GoToMyOrdersPageCommand implements Command {
 
         try {
             HttpSession session = request.getSession();
-            int userId = (int)session.getAttribute("userId");
+            int userId = (int) session.getAttribute("userId");
 
             List<Order> myOrders = orderService.getMyOrders(userId);
 

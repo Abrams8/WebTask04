@@ -40,6 +40,7 @@
     <fmt:message bundle="${loc}" key="local.button.admin_cars" var="admin_cars"/>
     <fmt:message bundle="${loc}" key="local.button.admin_pay" var="admin_pay"/>
     <fmt:message bundle="${loc}" key="local.button.pay" var="pay"/>
+    <fmt:message bundle="${loc}" key="local.button.orders_history" var="orders_history"/>
 
 
     <link rel="stylesheet" href="css/styles.css" type="text/css">
@@ -101,54 +102,90 @@
         <a href="MyController?command=GO_TO_MY_ORDERS_PAGE"><h3 style="color: white; margin: 10px">${my_orders} </h3>
         </a>
         <hr style="width: 300px">
+        <a href="MyController?command=GO_TO_MY_ORDERS_HISTORY_PAGE"><h3
+                style="color: white; margin: 10px">${orders_history} </h3>
+        </a>
+        <hr style="width: 300px">
         <a href="MyController?command=LOG_OUT"><h3 style="color: white; margin: 10px">${logout} </h3></a>
         <hr style="width: 300px">
     </c:if>
 
 </div>
-
-<div align="center">
-    <table cols="10" border="1%" width="80%" cellpadding="10" align="center">
-        <tr>
-            <th>orderId</th>
-            <th>carId</th>
-            <th>startDate</th>
-            <th>endDate</th>
-            <th>isConfirmed</th>
-            <th>isPayed</th>
-            <th>isClosed</th>
-            <th>comments</th>
-
-        </tr>
-        <c:forEach var="order" items="${requestScope.myOrders}">
+<c:if test="${not empty requestScope.myOrders}">
+    <div align="center">
+        <table cols="10" border="1%" width="80%" cellpadding="10" align="center" bgcolor="#e6e6fa">
             <tr>
-                <td><c:out value="${order.orderId}"/></td>
-                <td><c:out value="${order.carId}"/></td>
-                <td><c:out value="${order.startDate}"/></td>
-                <td><c:out value="${order.endDate}"/></td>
-                <td><c:out value="${order.isConfirmed}"/></td>
-                <td><c:out value="${order.isPayed}"/></td>
-                <td><c:out value="${order.isClosed}"/></td>
-                <td><c:out value="${order.comments}"/></td>
+                <th>orderId</th>
+                <th>carId</th>
+                <th>startDate</th>
+                <th>endDate</th>
+                <th>isConfirmed</th>
+                <th>isPayed</th>
+                <th>comments</th>
+                <th>price</th>
 
-                <form action="MyController" method="get">
-                    <input type="hidden" name="command" value="PAY_ORDER">
-                    <input type="hidden" name="orderId" value="${order.orderId}"/>
-                    <td><input type="submit" value="${pay}"></td>
-                </form>
-
-                <form action="MyController" method="get">
-                    <input type="hidden" name="command" value="DELETE_ORDER">
-                    <input type="hidden" name="carId" value="${order.carId}"/>
-                    <input type="hidden" name="orderId" value="${order.orderId}"/>
-                    <td><input type="submit" value="${delete}"></td>
-                </form>
-
-
-                <hr>
             </tr>
-        </c:forEach>
-    </table>
-</div>
+            <c:forEach var="order" items="${requestScope.myOrders}">
+                <tr>
+                    <td><c:out value="${order.orderId}"/></td>
+                    <td><c:out value="${order.carId}"/></td>
+                    <td><c:out value="${order.startDate}"/></td>
+                    <td><c:out value="${order.endDate}"/></td>
+                    <td><c:out value="${order.isConfirmed}"/></td>
+                    <td><c:out value="${order.isPayed}"/></td>
+                    <td><c:out value="${order.comments}"/></td>
+                    <td><c:out value="${order.orderPrice}"/></td>
+
+                    <form action="MyController" method="get">
+                        <input type="hidden" name="command" value="PAY_ORDER">
+                        <input type="hidden" name="orderId" value="${order.orderId}"/>
+                        <td><input type="submit" value="${pay}"></td>
+                    </form>
+
+                    <form action="MyController" method="get">
+                        <input type="hidden" name="command" value="DELETE_ORDER">
+                        <input type="hidden" name="carId" value="${order.carId}"/>
+                        <input type="hidden" name="orderId" value="${order.orderId}"/>
+                        <td><input type="submit" value="${delete}"></td>
+                    </form>
+
+
+                    <hr>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+</c:if>
+<c:if test="${not empty requestScope.myHistoryOrders}">
+    <div align="center">
+        <table cols="7" border="1%" width="80%" cellpadding="10" align="center" bgcolor="#e6e6fa">
+            <tr>
+                <th>orderId</th>
+                <th>carId</th>
+                <th>startDate</th>
+                <th>endDate</th>
+                <th>isConfirmed</th>
+                <th>isPayed</th>
+                <th>comments</th>
+                <th>price</th>
+
+            </tr>
+            <c:forEach var="order" items="${requestScope.myHistoryOrders}">
+                <tr>
+                    <td><c:out value="${order.orderId}"/></td>
+                    <td><c:out value="${order.carId}"/></td>
+                    <td><c:out value="${order.startDate}"/></td>
+                    <td><c:out value="${order.endDate}"/></td>
+                    <td><c:out value="${order.isConfirmed}"/></td>
+                    <td><c:out value="${order.isPayed}"/></td>
+                    <td><c:out value="${order.comments}"/></td>
+                    <td><c:out value="${order.orderPrice}"/></td>
+
+                    <hr>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+</c:if>
 </body>
 </html>

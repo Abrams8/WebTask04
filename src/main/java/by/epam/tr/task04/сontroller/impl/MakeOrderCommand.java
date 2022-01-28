@@ -19,9 +19,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class MakeOrderCommand  implements Command {
+public class MakeOrderCommand implements Command {
 
-    private final Logger log = LogManager.getLogger(RegistrationCommand.class);
+    private final Logger log = LogManager.getLogger(MakeOrderCommand.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
     private final CarService carService = ServiceFactory.getInstance().getCarService();
 
@@ -32,13 +32,15 @@ public class MakeOrderCommand  implements Command {
         LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
         LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
         int userId = Integer.parseInt(request.getParameter("userId"));
-
+        Double carPrice = Double.parseDouble(request.getParameter("carPrice"));
+        Double orderPrice = countOrderPrice(startDate, endDate, carPrice);
 
         Order order = new Order();
         order.setCarId(carId);
         order.setUserId(userId);
         order.setEndDate(endDate);
         order.setStartDate(startDate);
+        order.setOrderPrice(orderPrice);
 
 
         try {
@@ -51,5 +53,14 @@ public class MakeOrderCommand  implements Command {
         } catch (ServiceException e) {
             log.error(e);
         }
+    }
+
+    public Double countOrderPrice(LocalDate startDate, LocalDate endDate, Double carPrice) {
+
+        int startDateNumber = startDate.getDayOfYear();
+        int endDateNumber = endDate.getDayOfYear();
+        int rentDays = endDateNumber - startDateNumber;
+        Double finalPrice = rentDays * carPrice;
+        return finalPrice;
     }
 }

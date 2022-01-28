@@ -17,7 +17,7 @@ import java.util.List;
 
 public class GetBlackListCommand implements Command {
 
-    private static final Logger log = LogManager.getLogger(GoToFreeCarsPageCommand.class);
+    private static final Logger log = LogManager.getLogger(GetBlackListCommand.class);
     private final UserService userService = ServiceFactory.getInstance().getUserService();
     private final static String goToBlackListPage = "/WEB-INF/jsp/adminUsers.jsp";
 

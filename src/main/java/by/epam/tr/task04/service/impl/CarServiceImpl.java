@@ -18,57 +18,62 @@ public class CarServiceImpl implements CarService {
     @Override
     public List<Car> getAllCars() throws ServiceException {
         List<Car> allCars;
-        try{
+        try {
             allCars = carDAO.getAllCars();
         } catch (DAOException e) {
             throw new ServiceException(e);
-        } return allCars;
+        }
+        return allCars;
     }
 
     @Override
     public List<Car> getAllFreeCars() throws ServiceException {
         List<Car> allFreeCars;
-        try{
+        try {
             allFreeCars = carDAO.getAllFreeCars();
         } catch (DAOException e) {
             throw new ServiceException(e);
-        } return allFreeCars;
+        }
+        return allFreeCars;
     }
 
     @Override
     public List<Car> getAllBusyCars() throws ServiceException {
         List<Car> allBusyCars;
-        try{
+        try {
             allBusyCars = carDAO.getAllBusyCars();
         } catch (DAOException e) {
             throw new ServiceException(e);
-        } return allBusyCars;
+        }
+        return allBusyCars;
     }
 
     @Override
     public List<Car> getAllBrokenCars() throws ServiceException {
         List<Car> allBrokenCars;
-        try{
+        try {
             allBrokenCars = carDAO.getAllBrokenCars();
         } catch (DAOException e) {
             throw new ServiceException(e);
-        } return allBrokenCars;
+        }
+        return allBrokenCars;
     }
 
     @Override
     public Car findCarById(int carId) throws ServiceException {
         Car car;
-        try{
+        try {
             car = carDAO.findCarById(carId);
         } catch (DAOException e) {
             throw new ServiceException(e);
-        } return car;
+        }
+        return car;
     }
 
     @Override
     public void addCar(Car car) throws ServiceException {
-        try{
-           carDAO.addCar(car);
+        try {
+            carDAO.addCar(car);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -76,7 +81,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void updateCar(Car car) throws ServiceException {
-        try{
+        try {
             carDAO.updateCar(car);
         } catch (DAOException e) {
             throw new ServiceException(e);
@@ -85,7 +90,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteCar(Car car) throws ServiceException {
-        try{
+        try {
             carDAO.deleteCar(car);
         } catch (DAOException e) {
             throw new ServiceException(e);
@@ -94,7 +99,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void addCarToRepair(Car car, LocalDate startRepaired, LocalDate endRepaired) throws ServiceException {
-        try{
+        try {
             carDAO.addCarToRepair(car, startRepaired, endRepaired);
         } catch (DAOException e) {
             throw new ServiceException(e);
@@ -103,7 +108,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void addCarToBusy(int carId, LocalDate startRent, LocalDate endRent) throws ServiceException {
-        try{
+        try {
             carDAO.addCarToBusy(carId, startRent, endRent);
         } catch (DAOException e) {
             throw new ServiceException(e);
@@ -112,7 +117,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteCarFromRepair(Car car) throws ServiceException {
-        try{
+        try {
             carDAO.deleteCarFromRepair(car);
         } catch (DAOException e) {
             throw new ServiceException(e);
@@ -121,7 +126,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteCarFromBusy(int carId) throws ServiceException {
-        try{
+        try {
             carDAO.deleteCarFromBusy(carId);
         } catch (DAOException e) {
             throw new ServiceException(e);
@@ -131,10 +136,11 @@ public class CarServiceImpl implements CarService {
     @Override
     public int getMaxCarStatusId() throws ServiceException {
         int maxCarStatusId;
-        try{
+        try {
             maxCarStatusId = carDAO.getMaxCarStatusId();
         } catch (DAOException e) {
             throw new ServiceException(e);
-        } return maxCarStatusId;
+        }
+        return maxCarStatusId;
     }
 }

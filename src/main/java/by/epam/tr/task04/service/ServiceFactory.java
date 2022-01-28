@@ -12,7 +12,8 @@ public class ServiceFactory {
     private final OrderService orderService = new OrderServiceImpl();
     private final CarService carService = new CarServiceImpl();
 
-    private ServiceFactory(){}
+    private ServiceFactory() {
+    }
 
     public CarService getCarService() {
         return carService;

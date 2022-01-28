@@ -59,7 +59,7 @@ public class RegistrationCommand implements Command {
                 session.setAttribute("login", user.getLogin());
                 session.setAttribute("role", Role.getRoleById(user.getRole().getRoleId()).toString());
                 response.sendRedirect("MyController?command=GO_TO_MAIN_PAGE");
-            } catch (ServiceException e){
+            } catch (ServiceException e) {
                 log.error(e);
             }
         } else {
@@ -70,5 +70,5 @@ public class RegistrationCommand implements Command {
             dispatcher.forward(request, response);
         }
 
-        }
     }
+}
