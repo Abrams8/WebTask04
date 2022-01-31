@@ -103,7 +103,7 @@
 </div>
 <c:if test="${not empty requestScope.allConfirmedOrders}">
     <div align="center">
-        <table cols="10" border="1%" width="80%" cellpadding="5" bgcolor="#e6e6fa">
+        <table cols="10" border="1%" width="60%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
                 <th>Order id</th>
                 <th>userId</th>
@@ -141,7 +141,7 @@
 </c:if>
 <c:if test="${not empty requestScope.allUnconfirmedOrders}">
     <div align="center">
-        <table cols="10" border="1%" width="80%" cellpadding="5" bgcolor="#e6e6fa">
+        <table cols="10" border="1%" width="60%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
                 <th>Order id</th>
                 <th>userId</th>
@@ -185,7 +185,7 @@
 
 <c:if test="${not empty requestScope.allClosedOrders}">
     <div align="center">
-        <table cols="11" border="1%" width="80%" cellpadding="5" bgcolor="#e6e6fa">
+        <table cols="11" border="1%" width="60%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
                 <th>Order id</th>
                 <th>userId</th>

@@ -32,6 +32,7 @@ public class GetAllUsersCommand implements Command {
             requestDispatcher.forward(request, response);
         } catch (ServiceException e) {
             log.error(e);
+            response.sendRedirect("/WEB-INF/jsp/errorPage.jsp");
         }
     }
 }

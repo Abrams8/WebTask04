@@ -22,7 +22,7 @@ public interface CarService {
 
     void updateCar(Car car) throws ServiceException;
 
-    void deleteCar(Car car) throws ServiceException;
+    void deleteCar(int carId) throws ServiceException;
 
     void addCarToRepair(Car car, LocalDate startRepaired, LocalDate endRepaired) throws ServiceException;
 

@@ -228,16 +228,6 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public List<Order> getAllRejectedOrders() throws DAOException {
-        return null;
-    }
-
-    @Override
-    public List<Order> getAllOrders() throws DAOException {
-        return null;
-    }
-
-    @Override
     public int getMaxOrderId() throws DAOException {
         Connection connection = null;
         Statement statement = null;

@@ -89,9 +89,9 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void deleteCar(Car car) throws ServiceException {
+    public void deleteCar(int carId) throws ServiceException {
         try {
-            carDAO.deleteCar(car);
+            carDAO.deleteCar(carId);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

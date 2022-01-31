@@ -145,7 +145,7 @@
         <p><input type="search" name="q">
             <input type="submit" value="${find}"></p>
     </form>
-    <table cols="11" border="1%" width="80%" cellpadding="10" bgcolor="#e6e6fa">
+    <table cols="11" border="1%" width="60%" cellpadding="10" bgcolor="#e6e6fa">
         <tr>
             <th>Car Id</th>
             <th>Brand</th>
@@ -188,6 +188,5 @@
         </c:forEach>
     </table>
 </div>
-
 </body>
 </html>

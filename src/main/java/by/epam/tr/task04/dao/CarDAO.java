@@ -23,7 +23,7 @@ public interface CarDAO {
 
     void updateCar(Car car) throws DAOException;
 
-    void deleteCar(Car car) throws DAOException;
+    void deleteCar(int carId) throws DAOException;
 
     void addCarToRepair(Car car, LocalDate startRepaired, LocalDate endRepaired) throws DAOException;
 

@@ -38,6 +38,11 @@ public final class CommandProvider {
         commands.put("CONFIRM_ORDER", new ConfirmOrderCommand());
         commands.put("CLOSE_ORDER", new CloseOrderCommander());
         commands.put("GO_TO_MY_ORDERS_HISTORY_PAGE", new GoToMyOrdersHistoryPageCommand());
+        commands.put("GET_ALL_CARS", new GetAllCarsCommander());
+        commands.put("GET_CARS_IN_REPAIR", new GetCarsUnderRepairCommand());
+        commands.put("DELETE_CAR", new DeleteCarCommand());
+        commands.put("UPDATE_CAR", new UpdateCarCommand());
+        commands.put("ADD_TO_REPAIR", new AddCarToRepairCommand());
 
     }
 

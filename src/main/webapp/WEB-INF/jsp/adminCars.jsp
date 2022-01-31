@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>My orders</title>
+    <title>Main page</title>
 
 
     <fmt:setLocale value="${sessionScope.local}"/>
@@ -39,8 +39,12 @@
     <fmt:message bundle="${loc}" key="local.button.admin_users" var="admin_users"/>
     <fmt:message bundle="${loc}" key="local.button.admin_cars" var="admin_cars"/>
     <fmt:message bundle="${loc}" key="local.button.admin_pay" var="admin_pay"/>
-    <fmt:message bundle="${loc}" key="local.button.pay" var="pay"/>
-    <fmt:message bundle="${loc}" key="local.button.orders_history" var="orders_history"/>
+
+    <fmt:message bundle="${loc}" key="local.button.get_all_cars" var="get_all_cars"/>
+    <fmt:message bundle="${loc}" key="local.button.get_cars_in_repair" var="get_cars_in_repair"/>
+    <fmt:message bundle="${loc}" key="local.button.update_car" var="update_car"/>
+    <fmt:message bundle="${loc}" key="local.button.add_to_repair" var="add_to_repair"/>
+
 
 
     <link rel="stylesheet" href="css/styles.css" type="text/css">
@@ -49,9 +53,6 @@
 
 <div class="header_top">
     <div class="welcome_message">
-        <c:if test="${not empty login and role eq 'Client'}" var="isClient">
-            <h1><c:out value="Hello, ${sessionScope.login}"/></h1>
-        </c:if>
 
         <c:if test="${not empty login and role eq 'Admin'}" var="isAdmin">
             <h1><c:out value="Hello, ${sessionScope.login}"/></h1>
@@ -82,105 +83,102 @@
 
     </div>
 
-    <c:if test="${empty role}" var="isUnknownUser">
-
-        <div class="logination_registration">
-            <a href="MyController?command=GO_TO_LOGINATION_PAGE">${login_in}</a>
-            <a href="MyController?command=GO_TO_REGISTRATION_PAGE">${registration}</a>
-        </div>
-
-    </c:if>
 </div>
 
 <div class="user_buttons">
-    <c:if test="${not empty login}" var="isLoginIn">
+
+    <c:if test="${not empty login and role eq 'Admin'}" var="isLoginInAdmin">
         <br>
         <hr style="width: 300px">
-        <a href="MyController?command=GO_TO_ACCAUNT_INFORMATION_PAGE"><h3
-                style="color: white; margin: 10px">${accaunt_information} </h3></a>
+        <a href="MyController?command=GET_ALL_CARS"><h3 style="color: white; margin: 10px">${get_all_cars} </h3></a>
         <hr style="width: 300px">
-        <a href="MyController?command=GO_TO_MY_ORDERS_PAGE"><h3 style="color: white; margin: 10px">${my_orders} </h3>
-        </a>
-        <hr style="width: 300px">
-        <a href="MyController?command=GO_TO_MY_ORDERS_HISTORY_PAGE"><h3
-                style="color: white; margin: 10px">${orders_history} </h3>
-        </a>
+        <a href="MyController?command=GET_CARS_IN_REPAIR"><h3 style="color: white; margin: 10px">${get_cars_in_repair} </h3></a>
         <hr style="width: 300px">
         <a href="MyController?command=LOG_OUT"><h3 style="color: white; margin: 10px">${logout} </h3></a>
         <hr style="width: 300px">
     </c:if>
+</div>
+
+<div>
 
 </div>
-<c:if test="${not empty requestScope.myOrders}">
+<c:if test="${not empty requestScope.allCars}">
     <div align="center">
-        <table cols="10" border="1%" width="60%" cellpadding="10" align="center" bgcolor="#e6e6fa">
+        <table cols="13" border="1%" width="60%" cellpadding="10" bgcolor="#e6e6fa">
             <tr>
-                <th>orderId</th>
-                <th>carId</th>
-                <th>startDate</th>
-                <th>endDate</th>
-                <th>isConfirmed</th>
-                <th>isPayed</th>
-                <th>comments</th>
-                <th>price</th>
-
+                <th>Car Id</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Transmission type</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Fuel type</th>
+                <th>Body type</th>
             </tr>
-            <c:forEach var="order" items="${requestScope.myOrders}">
+            <c:forEach var="car" items="${requestScope.allCars}">
                 <tr>
-                    <td><c:out value="${order.orderId}"/></td>
-                    <td><c:out value="${order.carId}"/></td>
-                    <td><c:out value="${order.startDate}"/></td>
-                    <td><c:out value="${order.endDate}"/></td>
-                    <td><c:out value="${order.isConfirmed}"/></td>
-                    <td><c:out value="${order.isPayed}"/></td>
-                    <td><c:out value="${order.comments}"/></td>
-                    <td><c:out value="${order.orderPrice}"/></td>
-
+                        <td><c:out value="${car.carId}"/></td>
+                        <td><c:out value="${car.brand}"/></td>
+                        <td><c:out value="${car.model}"/></td>
+                        <td><c:out value="${car.transmissionType}"/></td>
+                        <td><c:out value="${car.yearOfIssue}"/></td>
+                        <td><c:out value="${car.price}"/></td>
+                        <td><c:out value="${car.fuelType}"/></td>
+                        <td><c:out value="${car.bodyType}"/></td>
                     <form action="MyController" method="get">
-                        <input type="hidden" name="command" value="PAY_ORDER">
-                        <input type="hidden" name="orderId" value="${order.orderId}"/>
-                        <td><input type="submit" value="${pay}"></td>
+                            <input type="hidden" name="command" value="DELETE_CAR">
+                            <input type="hidden" name="carId" value="${car.carId}"/>
+                            <td><input type="submit" value="${delete}"></td>
+                    </form>
+                    <form action="MyController" method="get">
+                        <input type="hidden" name="command" value="UPDATE_CAR">
+                        <input type="hidden" name="carId" value="${car.carId}"/>
+                        <td><input type="submit" value="${update_car}"></td>
                     </form>
 
+                    <td><input type="date" name="startDate" value="2021-01-25"
+                               max="2025-01-01" min="2021-01-25"></td>
+                    <td><input type="date" name="endDate" value="2021-01-26"
+                               max="2025-01-01" min="2021-01-25"></td>
                     <form action="MyController" method="get">
-                        <input type="hidden" name="command" value="DELETE_ORDER">
-                        <input type="hidden" name="carId" value="${order.carId}"/>
-                        <input type="hidden" name="orderId" value="${order.orderId}"/>
-                        <td><input type="submit" value="${delete}"></td>
+                        <input type="hidden" name="command" value="ADD_TO_REPAIR">
+                        <input type="hidden" name="carId" value="${car.carId}"/>
+                        <td><input type="submit" value="${add_to_repair}"></td>
                     </form>
-
-
                     <hr>
                 </tr>
             </c:forEach>
         </table>
     </div>
 </c:if>
-<c:if test="${not empty requestScope.myHistoryOrders}">
+<c:if test="${not empty requestScope.carsUnderRepair}">
     <div align="center">
-        <table cols="7" border="1%" width="60%" cellpadding="10" align="center" bgcolor="#e6e6fa">
+        <table cols="11" border="1%" width="60%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
-                <th>orderId</th>
-                <th>carId</th>
-                <th>startDate</th>
-                <th>endDate</th>
-                <th>isConfirmed</th>
-                <th>isPayed</th>
-                <th>comments</th>
-                <th>price</th>
-
+                <th>User id</th>
+                <th>login</th>
+                <th>pasportNumber</th>
+                <th>name</th>
+                <th>surname</th>
+                <th>phoneNumber</th>
+                <th>mail</th>
+                <th></th>
             </tr>
-            <c:forEach var="order" items="${requestScope.myHistoryOrders}">
+            <c:forEach var="user" items="${requestScope.carsUnderRepair}">
                 <tr>
-                    <td><c:out value="${order.orderId}"/></td>
-                    <td><c:out value="${order.carId}"/></td>
-                    <td><c:out value="${order.startDate}"/></td>
-                    <td><c:out value="${order.endDate}"/></td>
-                    <td><c:out value="${order.isConfirmed}"/></td>
-                    <td><c:out value="${order.isPayed}"/></td>
-                    <td><c:out value="${order.comments}"/></td>
-                    <td><c:out value="${order.orderPrice}"/></td>
 
+                    <td><c:out value="${user.id}"/></td>
+                    <td><c:out value="${user.login}"/></td>
+                    <td><c:out value="${user.pasportNumber}"/></td>
+                    <td><c:out value="${user.name}"/></td>
+                    <td><c:out value="${user.surname}"/></td>
+                    <td><c:out value="${user.phoneNumber}"/></td>
+                    <td><c:out value="${user.mail}"/></td>
+                    <form action="MyController" method="get">
+                        <input type="hidden" name="command" value="DELETE_USER_FROM_BLACK_LIST">
+                        <input type="hidden" name="userId" value="${user.id}"/>
+                        <td><input type="submit" value="${delete}"></td>
+                    </form>
                     <hr>
                 </tr>
             </c:forEach>

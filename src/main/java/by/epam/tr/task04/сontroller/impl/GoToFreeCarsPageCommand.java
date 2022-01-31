@@ -36,6 +36,7 @@ public class GoToFreeCarsPageCommand implements Command {
             dispatcher.forward(request, response);
         } catch (ServiceException e) {
             log.error(e);
+            response.sendRedirect("/WEB-INF/jsp/errorPage.jsp");
         }
     }
 }

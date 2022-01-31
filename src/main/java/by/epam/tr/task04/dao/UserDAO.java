@@ -16,7 +16,6 @@ public interface UserDAO {
 
     void addUserToBlackList(int userId, String reason) throws DAOException;
 
-
     User findUserById(int userId) throws DAOException;
 
     User findUserByLogin(String userLogin) throws DAOException;

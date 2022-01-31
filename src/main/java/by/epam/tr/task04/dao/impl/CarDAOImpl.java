@@ -287,20 +287,15 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void deleteCar(Car car) throws DAOException {
+    public void deleteCar(int carId) throws DAOException {
         Connection connection = null;
-        PreparedStatement preparedStatementDeleteCar = null;
-        PreparedStatement preparedStatementDeleteCarStatus = null;
+        PreparedStatement preparedStatement = null;
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(false);
-            preparedStatementDeleteCar = connection.prepareStatement(DELETE_CAR);
-            preparedStatementDeleteCar.setInt(1, car.getCarId());
-            preparedStatementDeleteCar.executeUpdate();
-
-            preparedStatementDeleteCarStatus = connection.prepareStatement(DELETE_CAR_FROM_CAR_STATUS);
-            preparedStatementDeleteCarStatus.setInt(1, car.getCarId());
-            preparedStatementDeleteCarStatus.executeUpdate();
+            preparedStatement = connection.prepareStatement(DELETE_CAR);
+            preparedStatement.setInt(1, carId);
+            preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e) {
             try {
@@ -312,8 +307,7 @@ public class CarDAOImpl implements CarDAO {
             throw new DAOException(e);
         } finally {
             try {
-                connectionPool.closeConnection(connection, preparedStatementDeleteCar);
-                //  connectionPool.closeConnection(preparedStatementDeleteCarStatus)
+                connectionPool.closeConnection(connection, preparedStatement);
             } catch (ConnectionPoolException e) {
                 throw new DAOException(e);
             }

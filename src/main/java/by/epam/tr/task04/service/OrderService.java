@@ -14,8 +14,6 @@ public interface OrderService {
 
     List<Order> getMyOrders(int userId) throws ServiceException;
 
-    int getMaxOrderId() throws ServiceException;
-
     void deleteOrder(int orderId) throws ServiceException;
 
     void addPayedOrder(int orderId) throws ServiceException;
@@ -29,4 +27,6 @@ public interface OrderService {
     List<Order> getAllClosedOrders() throws ServiceException;
 
     List<Order> getMyOrdersHistory(int userId) throws ServiceException;
+
+    int getMaxOrderId() throws ServiceException;
 }

@@ -39,7 +39,7 @@
     <fmt:message bundle="${loc}" key="local.button.admin_users" var="admin_users"/>
     <fmt:message bundle="${loc}" key="local.button.admin_cars" var="admin_cars"/>
     <fmt:message bundle="${loc}" key="local.button.admin_pay" var="admin_pay"/>
-
+    <fmt:message bundle="${loc}" key="local.button.find" var="find"/>
 
     <link rel="stylesheet" href="css/styles.css" type="text/css">
 </head>
@@ -98,7 +98,11 @@
 </div>
 <c:if test="${not empty requestScope.allUsers}">
     <div align="center">
-        <table cols="11" border="1%" width="80%" cellpadding="5" bgcolor="#e6e6fa">
+        <form>
+            <p><input type="search" name="q">
+                <input type="submit" value="${find}"></p>
+        </form>
+        <table cols="11" border="1%" width="60%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
                 <th>User id</th>
                 <th>login</th>
@@ -140,7 +144,11 @@
 </c:if>
 <c:if test="${not empty requestScope.blackList}">
     <div align="center">
-        <table cols="11" border="1%" width="80%" cellpadding="5" bgcolor="#e6e6fa">
+        <form>
+            <p><input type="search" name="q">
+                <input type="submit" value="${find}"></p>
+        </form>
+        <table cols="11" border="1%" width="60%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
                 <th>User id</th>
                 <th>login</th>
