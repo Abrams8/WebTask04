@@ -19,7 +19,6 @@ public class DeleteUserFromBlackListCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(DeleteUserFromBlackListCommand.class);
     private final UserService userService = ServiceFactory.getInstance().getUserService();
-    private final static String goToAllUsersPage = "/WEB-INF/jsp/adminUsers.jsp";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws
@@ -29,7 +28,7 @@ public class DeleteUserFromBlackListCommand implements Command {
 
         try {
             userService.deleteUserFromBlackList(userId);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(goToAllUsersPage);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("MyController?command=GET_BLACK_LIST");
             requestDispatcher.forward(request, response);
         } catch (ServiceException e) {
             log.error(e);

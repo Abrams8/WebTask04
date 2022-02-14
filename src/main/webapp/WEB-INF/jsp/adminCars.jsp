@@ -85,6 +85,16 @@
 
 </div>
 
+<div class="header_top2">
+    <div class="welcome_message">
+
+        <c:if test="${not empty requestScope.successMessage}" var="successMessage">
+            <h3 style="color: #b24c02"><c:out value="${requestScope.successMessage}"/></h3>
+        </c:if>
+
+    </div>
+</div>
+
 <div class="user_buttons">
 
     <c:if test="${not empty login and role eq 'Admin'}" var="isLoginInAdmin">
@@ -104,7 +114,7 @@
 </div>
 <c:if test="${not empty requestScope.allCars}">
     <div align="center">
-        <table cols="13" border="1%" width="60%" cellpadding="10" bgcolor="#e6e6fa">
+        <table cols="9" border="1%" width="50%" cellpadding="10" bgcolor="#e6e6fa">
             <tr>
                 <th>Car Id</th>
                 <th>Brand</th>
@@ -126,24 +136,22 @@
                         <td><c:out value="${car.fuelType}"/></td>
                         <td><c:out value="${car.bodyType}"/></td>
                     <form action="MyController" method="get">
-                            <input type="hidden" name="command" value="DELETE_CAR">
-                            <input type="hidden" name="carId" value="${car.carId}"/>
-                            <td><input type="submit" value="${delete}"></td>
-                    </form>
-                    <form action="MyController" method="get">
-                        <input type="hidden" name="command" value="UPDATE_CAR">
+                        <td><input size="5px" type="text" name="price" placeholder="new price" value=""/></td>
+                        <input type="hidden" name="command" value="UPDATE_CAR_PRICE">
                         <input type="hidden" name="carId" value="${car.carId}"/>
                         <td><input type="submit" value="${update_car}"></td>
                     </form>
 
-                    <td><input type="date" name="startDate" value="2021-01-25"
-                               max="2025-01-01" min="2021-01-25"></td>
-                    <td><input type="date" name="endDate" value="2021-01-26"
-                               max="2025-01-01" min="2021-01-25"></td>
                     <form action="MyController" method="get">
                         <input type="hidden" name="command" value="ADD_TO_REPAIR">
                         <input type="hidden" name="carId" value="${car.carId}"/>
                         <td><input type="submit" value="${add_to_repair}"></td>
+                    </form>
+
+                    <form action="MyController" method="get">
+                        <input type="hidden" name="command" value="DELETE_CAR">
+                        <input type="hidden" name="carId" value="${car.carId}"/>
+                        <td><input type="submit" value="${delete}"></td>
                     </form>
                     <hr>
                 </tr>
@@ -155,28 +163,30 @@
     <div align="center">
         <table cols="11" border="1%" width="60%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
-                <th>User id</th>
-                <th>login</th>
-                <th>pasportNumber</th>
-                <th>name</th>
-                <th>surname</th>
-                <th>phoneNumber</th>
-                <th>mail</th>
+                <th>Car Id</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Transmission type</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Fuel type</th>
+                <th>Body type</th>
                 <th></th>
             </tr>
-            <c:forEach var="user" items="${requestScope.carsUnderRepair}">
+            <c:forEach var="car" items="${requestScope.carsUnderRepair}">
                 <tr>
 
-                    <td><c:out value="${user.id}"/></td>
-                    <td><c:out value="${user.login}"/></td>
-                    <td><c:out value="${user.pasportNumber}"/></td>
-                    <td><c:out value="${user.name}"/></td>
-                    <td><c:out value="${user.surname}"/></td>
-                    <td><c:out value="${user.phoneNumber}"/></td>
-                    <td><c:out value="${user.mail}"/></td>
+                    <td><c:out value="${car.carId}"/></td>
+                    <td><c:out value="${car.brand}"/></td>
+                    <td><c:out value="${car.model}"/></td>
+                    <td><c:out value="${car.transmissionType}"/></td>
+                    <td><c:out value="${car.yearOfIssue}"/></td>
+                    <td><c:out value="${car.price}"/></td>
+                    <td><c:out value="${car.fuelType}"/></td>
+                    <td><c:out value="${car.bodyType}"/></td>
                     <form action="MyController" method="get">
-                        <input type="hidden" name="command" value="DELETE_USER_FROM_BLACK_LIST">
-                        <input type="hidden" name="userId" value="${user.id}"/>
+                        <input type="hidden" name="command" value="DELETE_CAR_FROM_REPAIR">
+                        <input type="hidden" name="carId" value="${car.carId}"/>
                         <td><input type="submit" value="${delete}"></td>
                     </form>
                     <hr>

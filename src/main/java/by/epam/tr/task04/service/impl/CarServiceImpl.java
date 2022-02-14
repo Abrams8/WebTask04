@@ -80,9 +80,9 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void updateCar(Car car) throws ServiceException {
+    public void updateCarPrice(int carId, double price) throws ServiceException {
         try {
-            carDAO.updateCar(car);
+            carDAO.updateCarPrice(carId, price);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -98,9 +98,9 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void addCarToRepair(Car car, LocalDate startRepaired, LocalDate endRepaired) throws ServiceException {
+    public void addCarToRepair(int carId) throws ServiceException {
         try {
-            carDAO.addCarToRepair(car, startRepaired, endRepaired);
+            carDAO.addCarToRepair(carId);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -116,9 +116,9 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void deleteCarFromRepair(Car car) throws ServiceException {
+    public void deleteCarFromRepair(int carId) throws ServiceException {
         try {
-            carDAO.deleteCarFromRepair(car);
+            carDAO.deleteCarFromRepair(carId);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

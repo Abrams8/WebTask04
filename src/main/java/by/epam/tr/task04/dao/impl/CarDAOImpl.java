@@ -25,13 +25,13 @@ public class CarDAOImpl implements CarDAO {
     private final static String ADD_CAR = "INSERT INTO Cars(car_id, brand, model, transmission_type, year_of_issue, price, fuel_type, body_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     private final static String ADD_CAR_STATUS = "INSERT INTO Car_status(car_status_id, car_id) VALUES (?, ?);";
 
-    private final static String UPDATE_CAR = "UPDATE Cars SET car_id=?, brand=?, model=?, transmission_type=?, year_of_issue=?, price=?, fuel_type=?, body_type=? WHERE car_id=?;";
+    private final static String UPDATE_CAR_PRICE = "UPDATE Cars SET price=? WHERE car_id=?;";
     private final static String DELETE_CAR = "DELETE FROM Cars WHERE car_id=?;";
     private final static String DELETE_CAR_FROM_CAR_STATUS = "DELETE FROM Cars_status WHERE car_id=?;";
 
-    private final static String ADD_CAR_TO_REPAIR = "UPDATE Car_status SET is_repaired=?, repair_start_date=?, repair_end_date=? WHERE car_id = ?;";
+    private final static String ADD_CAR_TO_REPAIR = "UPDATE Car_status SET is_repaired=? WHERE car_id = ?;";
     private final static String ADD_CAR_TO_BUSY = "UPDATE Car_status SET is_busy=?, rent_start_date=?, rent_end_date=? WHERE car_id = ?;";
-    private final static String DELETE_CAR_FROM_REPAIR = "UPDATE Car_status SET is_repaired = false, repair_start_date = null, repair_end_date = null WHERE car_id = ?;";
+    private final static String DELETE_CAR_FROM_REPAIR = "UPDATE Car_status SET is_repaired = false WHERE car_id = ?;";
     private final static String DELETE_CAR_FROM_BUSY = "UPDATE Car_status SET is_busy = false, rent_start_date = null, rent_end_date = null WHERE car_id = ?;";
     private final static String GET_MAX_CAR_STATUS_ID = "SELECT MAX(car_status_id) FROM Car_status;";
 
@@ -250,22 +250,15 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void updateCar(Car car) throws DAOException {
+    public void updateCarPrice(int carId, double price) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(UPDATE_CAR);
-            preparedStatement.setInt(1, car.getCarId());
-            preparedStatement.setString(2, car.getBrand());
-            preparedStatement.setString(3, car.getModel());
-            preparedStatement.setString(4, car.getTransmissionType());
-            preparedStatement.setInt(5, car.getYearOfIssue());
-            preparedStatement.setDouble(6, car.getPrice());
-            preparedStatement.setString(7, car.getFuelType());
-            preparedStatement.setString(8, car.getBodyType());
-            preparedStatement.setInt(9, car.getCarId());
+            preparedStatement = connection.prepareStatement(UPDATE_CAR_PRICE);
+            preparedStatement.setDouble(1, price);
+            preparedStatement.setInt(2, carId);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e) {
@@ -316,7 +309,7 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void addCarToRepair(Car car, LocalDate startRepaired, LocalDate endRepaired) throws DAOException {
+    public void addCarToRepair(int carId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -324,9 +317,7 @@ public class CarDAOImpl implements CarDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(ADD_CAR_TO_REPAIR);
             preparedStatement.setBoolean(1, true);
-            preparedStatement.setDate(2, java.sql.Date.valueOf(startRepaired));
-            preparedStatement.setDate(3, java.sql.Date.valueOf(endRepaired));
-            preparedStatement.setInt(4, car.getCarId());
+            preparedStatement.setInt(2, carId);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e) {
@@ -381,14 +372,14 @@ public class CarDAOImpl implements CarDAO {
     }
 
     @Override
-    public void deleteCarFromRepair(Car car) throws DAOException {
+    public void deleteCarFromRepair(int carId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = connectionPool.getConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(DELETE_CAR_FROM_REPAIR);
-            preparedStatement.setInt(1, car.getCarId());
+            preparedStatement.setInt(1, carId);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException | SQLException e) {

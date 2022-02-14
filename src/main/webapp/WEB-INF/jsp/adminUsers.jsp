@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="errorPage.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"  %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -98,10 +98,6 @@
 </div>
 <c:if test="${not empty requestScope.allUsers}">
     <div align="center">
-        <form>
-            <p><input type="search" name="q">
-                <input type="submit" value="${find}"></p>
-        </form>
         <table cols="11" border="1%" width="60%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
                 <th>User id</th>
@@ -144,10 +140,7 @@
 </c:if>
 <c:if test="${not empty requestScope.blackList}">
     <div align="center">
-        <form>
-            <p><input type="search" name="q">
-                <input type="submit" value="${find}"></p>
-        </form>
+
         <table cols="11" border="1%" width="60%" cellpadding="5" bgcolor="#e6e6fa">
             <tr>
                 <th>User id</th>
@@ -157,21 +150,22 @@
                 <th>surname</th>
                 <th>phoneNumber</th>
                 <th>mail</th>
+                <th>reason</th>
                 <th></th>
             </tr>
-            <c:forEach var="user" items="${requestScope.blackList}">
+            <c:forEach var="entry" items="${requestScope.blackList}">
                 <tr>
-
-                    <td><c:out value="${user.id}"/></td>
-                    <td><c:out value="${user.login}"/></td>
-                    <td><c:out value="${user.pasportNumber}"/></td>
-                    <td><c:out value="${user.name}"/></td>
-                    <td><c:out value="${user.surname}"/></td>
-                    <td><c:out value="${user.phoneNumber}"/></td>
-                    <td><c:out value="${user.mail}"/></td>
+                    <td><c:out value="${entry.key.id}"/></td>
+                    <td><c:out value="${entry.key.login}"/></td>
+                    <td><c:out value="${entry.key.pasportNumber}"/></td>
+                    <td><c:out value="${entry.key.name}"/></td>
+                    <td><c:out value="${entry.key.surname}"/></td>
+                    <td><c:out value="${entry.key.phoneNumber}"/></td>
+                    <td><c:out value="${entry.key.mail}"/></td>
+                    <td><c:out value="${entry.value.reason}"/></td>
                     <form action="MyController" method="get">
                         <input type="hidden" name="command" value="DELETE_USER_FROM_BLACK_LIST">
-                        <input type="hidden" name="userId" value="${user.id}"/>
+                        <input type="hidden" name="userId" value="${entry.key.id}"/>
                         <td><input type="submit" value="${delete}"></td>
                     </form>
                     <hr>

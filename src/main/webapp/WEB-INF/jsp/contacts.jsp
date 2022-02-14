@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Main page</title>
+    <title>Contacts</title>
 
 
     <fmt:setLocale value="${sessionScope.local}"/>
@@ -128,5 +128,19 @@
     </c:if>
 
 </div>
+<h2>Мы на карте</h2><br>
+<div style="align-content: center; display: flex; justify-content: flex-end; padding: 10px 5px 0 5px">
+    <script type="text/javascript" charset="utf-8" async
+            src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Ad4fe7356846823031013444128f505ff0dd682d12d8d666fd38554ba5288f610&amp;width=923&amp;height=502&amp;lang=ru_RU&amp;scroll=true"></script>
+</div><br>
+    <div style="background-color: #444444; align-content: center; display: flex; justify-content: flex-end; padding: 10px 5px 0 5px; width: 200px; height: 250px">
+        <h3 style="color: white">
+        Телефон:<br>
+        +8 (804) 333-29-75<br><br>
+        Адрес:<br>
+        г. Минск, ул. Скрыганова 2<br><br>
+        Режим работы:<br>
+        Без выходных, 10:00 - 21:00</h3>
+    </div>
 </body>
 </html>

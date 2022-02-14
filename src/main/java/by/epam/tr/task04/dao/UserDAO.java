@@ -5,6 +5,7 @@ import by.epam.tr.task04.entity.User;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public interface UserDAO {
 
@@ -22,7 +23,7 @@ public interface UserDAO {
 
     User findUserByPhoneNumber(String userPhoneNumber) throws DAOException;
 
-    boolean findInBlacklistById(int id) throws DAOException;
+    boolean findInBlacklistByLogin(String login) throws DAOException;
 
     void updateUser(User user) throws DAOException;
 
@@ -35,5 +36,7 @@ public interface UserDAO {
     int getMaxUserId() throws DAOException;
 
     int getUserRoleByUserId(int userId) throws DAOException;
+
+    Map<User, BlackList> getBlackList() throws DAOException;
 
 }

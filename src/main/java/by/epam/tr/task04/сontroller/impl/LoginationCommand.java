@@ -35,18 +35,27 @@ public class LoginationCommand implements Command {
 
         if (userValidator.loginationUserValidator(login, password)) {
             try {
-                User user = userService.logination(login, password);
-                if (user != null) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("userId", user.getId());
-                    session.setAttribute("login", user.getLogin());
-                    session.setAttribute("role", Role.getRoleById(user.getRole().getRoleId()).toString());
-                    response.sendRedirect("MyController?command=GO_TO_MAIN_PAGE");
+                if (!userService.findInBlacklistByLogin(login)){
+
+                    User user = userService.logination(login, password);
+                    if (user != null) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("userId", user.getId());
+                        session.setAttribute("login", user.getLogin());
+                        session.setAttribute("role", Role.getRoleById(user.getRole().getRoleId()).toString());
+                        response.sendRedirect("MyController?command=GO_TO_MAIN_PAGE");
+                    } else {
+                        request.setAttribute("errorMessage", "Login or password is incorrect.Try again!");
+                        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/logination.jsp");
+                        requestDispatcher.forward(request, response);
+                    }
+
                 } else {
-                    request.setAttribute("errorMessage", "Login or password is incorrect.Try again!");
+                    request.setAttribute("errorMessage", "You are blocked :( If you have any questions, you should contact with administrator!");
                     RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/logination.jsp");
                     requestDispatcher.forward(request, response);
                 }
+
             } catch (ServiceException e) {
                 log.error(e);
                 request.setAttribute("errorMessage", "Login or password is incorrect.Try again!");

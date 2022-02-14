@@ -3,13 +3,16 @@ package by.epam.tr.task04.service.impl;
 import by.epam.tr.task04.dao.DAOException;
 import by.epam.tr.task04.dao.DAOFactory;
 import by.epam.tr.task04.dao.UserDAO;
+import by.epam.tr.task04.entity.BlackList;
 import by.epam.tr.task04.entity.User;
 import by.epam.tr.task04.service.UserService;
 import by.epam.tr.task04.service.exception.ServiceException;
 import by.epam.tr.task04.service.validator.UserValidator;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserServiceImpl implements UserService {
 
@@ -92,10 +95,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean findInBlacklistById(int id) throws ServiceException {
+    public boolean findInBlacklistByLogin(String login) throws ServiceException {
         boolean result;
         try {
-            result = userDAO.findInBlacklistById(id);
+            result = userDAO.findInBlacklistByLogin(login);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -188,6 +191,17 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         return userRole;
+    }
+
+    @Override
+    public Map<User, BlackList> getBlackList() throws ServiceException {
+        Map<User, BlackList> blackListMap = new HashMap<>();
+        try {
+            blackListMap = userDAO.getBlackList();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return blackListMap;
     }
 
 }

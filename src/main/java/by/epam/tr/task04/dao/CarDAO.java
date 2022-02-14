@@ -21,15 +21,15 @@ public interface CarDAO {
 
     void addCar(Car car) throws DAOException;
 
-    void updateCar(Car car) throws DAOException;
+    void updateCarPrice(int carId, double price) throws DAOException;
 
     void deleteCar(int carId) throws DAOException;
 
-    void addCarToRepair(Car car, LocalDate startRepaired, LocalDate endRepaired) throws DAOException;
+    void addCarToRepair(int carId) throws DAOException;
 
     void addCarToBusy(int carId, LocalDate startRent, LocalDate endRent) throws DAOException;
 
-    void deleteCarFromRepair(Car car) throws DAOException;
+    void deleteCarFromRepair(int carId) throws DAOException;
 
     void deleteCarFromBusy(int carId) throws DAOException;
 

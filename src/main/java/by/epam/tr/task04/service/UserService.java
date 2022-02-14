@@ -1,10 +1,12 @@
 package by.epam.tr.task04.service;
 
 import by.epam.tr.task04.dao.DAOException;
+import by.epam.tr.task04.entity.BlackList;
 import by.epam.tr.task04.entity.User;
 import by.epam.tr.task04.service.exception.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -23,7 +25,7 @@ public interface UserService {
 
     User findUserByPhoneNumber(String userPhoneNumber) throws ServiceException;
 
-    boolean findInBlacklistById(int id) throws ServiceException;
+    boolean findInBlacklistByLogin(String login) throws ServiceException;
 
     void updateUser(User user) throws ServiceException;
 
@@ -40,4 +42,6 @@ public interface UserService {
     User logination(String login, String password) throws ServiceException;
 
     int getUserRole(int userId) throws ServiceException;
+
+    Map<User, BlackList> getBlackList() throws ServiceException;
 }

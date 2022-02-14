@@ -20,15 +20,15 @@ public interface CarService {
 
     void addCar(Car car) throws ServiceException;
 
-    void updateCar(Car car) throws ServiceException;
+    void updateCarPrice(int carId, double price) throws ServiceException;
 
     void deleteCar(int carId) throws ServiceException;
 
-    void addCarToRepair(Car car, LocalDate startRepaired, LocalDate endRepaired) throws ServiceException;
+    void addCarToRepair(int carId) throws ServiceException;
 
     void addCarToBusy(int carId, LocalDate startRent, LocalDate endRent) throws ServiceException;
 
-    void deleteCarFromRepair(Car car) throws ServiceException;
+    void deleteCarFromRepair(int carId) throws ServiceException;
 
     void deleteCarFromBusy(int carId) throws ServiceException;
 

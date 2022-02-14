@@ -10,7 +10,9 @@ import by.epam.tr.task04.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -25,7 +27,7 @@ public class UserDAOImpl implements UserDAO {
     private final static String GET_ALL_USERS_IN_BLACK_LIST = "SELECT * FROM Users INNER JOIN Black_list using(user_id);";
     private final static String FIND_USER_BY_LOGIN = "SELECT * FROM Users WHERE login=?;";
     private final static String FIND_USER_BY_PHONE_NUMBER = "SELECT * FROM Users WHERE phone_number=?;";
-    private final static String FIND_USER_IN_BLACK_LIST_BY_ID = "SELECT * FROM Black_list NATURAL JOIN Users NATURAL JOIN User_roles WHERE user_id=?;";
+    private final static String FIND_USER_IN_BLACK_LIST_BY_LOGIN = "SELECT * FROM Black_list NATURAL JOIN Users WHERE login=?;";
     private final static String DELETE_USER_BY_ID = "DELETE FROM Users WHERE user_id=?;";
     private final static String DELETE_USER_FROM_BLACK_LIST_BY_ID = "DELETE FROM Black_list WHERE user_id=?;";
     private final static String GET_USER_ID_BY_LOGIN = "SELECT user_id FROM Users WHERE login=?;";
@@ -280,15 +282,15 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public boolean findInBlacklistById(int userId) throws DAOException {
+    public boolean findInBlacklistByLogin(String login) throws DAOException {
         boolean userInBlackList = false;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
             connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(FIND_USER_IN_BLACK_LIST_BY_ID);
-            preparedStatement.setInt(1, userId);
+            preparedStatement = connection.prepareStatement(FIND_USER_IN_BLACK_LIST_BY_LOGIN);
+            preparedStatement.setString(1, login);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 userInBlackList = true;
@@ -486,4 +488,46 @@ public class UserDAOImpl implements UserDAO {
         }
         return userRole;
     }
+
+
+    @Override
+    public Map<User, BlackList> getBlackList() throws DAOException {
+        Map<User,BlackList> blackListMap = new HashMap<>();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionPool.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(GET_ALL_USERS_IN_BLACK_LIST);
+            while (resultSet.next()) {
+                User user = new User();
+                BlackList blackList = new BlackList();
+                user.setId(resultSet.getInt("user_id"));
+                user.setAge(resultSet.getInt("age"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setPasportNumber(resultSet.getString("pasport_number"));
+                user.setPhoneNumber(resultSet.getString("phone_number"));
+                user.setName(resultSet.getString("name"));
+                user.setSurname(resultSet.getString("surname"));
+                user.setRole(Role.getRoleById(resultSet.getInt("user_roles_id")));
+                user.setMail(resultSet.getString("mail"));
+                blackList.setUserId(resultSet.getInt("user_id"));
+                blackList.setReason(resultSet.getString("reason"));
+                blackListMap.put(user, blackList);
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            try {
+                connectionPool.closeConnection(connection, statement, resultSet);
+            } catch (ConnectionPoolException e) {
+                throw new DAOException(e);
+            }
+        }
+        return blackListMap;
+    }
+
+
 }

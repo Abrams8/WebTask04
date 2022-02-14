@@ -41,8 +41,11 @@ public final class CommandProvider {
         commands.put("GET_ALL_CARS", new GetAllCarsCommander());
         commands.put("GET_CARS_IN_REPAIR", new GetCarsUnderRepairCommand());
         commands.put("DELETE_CAR", new DeleteCarCommand());
-        commands.put("UPDATE_CAR", new UpdateCarCommand());
+        commands.put("UPDATE_CAR_PRICE", new UpdateCarPriceCommand());
         commands.put("ADD_TO_REPAIR", new AddCarToRepairCommand());
+        commands.put("GO_TO_RENT_TERMS_PAGE" , new GoToRentTermsPageCommand());
+        commands.put("GO_TO_CONTACTS_PAGE" , new GoToContactsPageCommand());
+        commands.put("DELETE_CAR_FROM_REPAIR", new DeleteCarFromRepairCommander());
 
     }
 

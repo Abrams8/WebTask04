@@ -28,7 +28,7 @@ public class AddUserToBlackListCommand implements Command {
 
         try {
             userService.addUserToBlackList(userId, reason);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("MyController?command=GO_TO_ADMIN_USERS_PAGE");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("MyController?command=GET_BLACK_LIST");
             requestDispatcher.forward(request, response);
         } catch (ServiceException e) {
             log.error(e);
